@@ -12,12 +12,16 @@ export const receiveAllPosts = posts => ({
     posts
 })
 
-export const getAllCategories = () => dispatch => (
+export const getAllCategories = () => dispatch => {
     readableAPI.getAllCategories()
-        .then(categories => dispatch(receiveCategories(categories)))
-)
+        .then(categories => {
+            dispatch(receiveCategories(categories))
+        })
+}
 
-export const getAllPosts = () => dispatch => (
+export const getAllPosts = () => dispatch => {
     readableAPI.getAllPosts()
-        .then(posts => dispatch(receiveAllPosts(posts)))
-)
+        .then(posts => {
+            dispatch(receiveAllPosts(posts))
+        })
+}

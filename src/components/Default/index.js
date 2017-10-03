@@ -1,26 +1,35 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import {getAllCategories, getAllPosts} from '../../actions';
+import CategoryList from './CategoryList';
+import PostsList from '../Common/PostsList';
 
 class DefaultView extends Component{
+    constructor(props, context){
+        super(props)
+    }
     componentDidMount(){
         this.props.getCategories()
         this.props.getAllPosts()
     }
+
     render(){
+
         return(
             <div>
               Default View
+                <CategoryList categories={this.props.categories} />
+                <PostsList posts={this.props.posts}/>
             </div>
         )
     }
 }
 
-const mapStateToProps = (state) =>{
-    console.log(state)
+const mapStateToProps = ({defaultViewReducer}) => {
+    console.log(defaultViewReducer.posts)
     return {
-        categories: state.categories,
-        posts: state.posts
+        categories: defaultViewReducer.categories,
+        posts: defaultViewReducer.posts
     }
 }
 
