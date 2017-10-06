@@ -25,3 +25,7 @@ export const getAllPosts = () => dispatch => {
             dispatch(receiveAllPosts(posts))
         })
 }
+
+export const getPostDetails = () => dispatch => {
+
+}

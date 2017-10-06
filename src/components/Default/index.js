@@ -24,10 +24,10 @@ class DefaultView extends Component{
     }
 }
 
-const mapStateToProps = ({defaultViewReducer}) => {
+const mapStateToProps = ({appReducer}) => {
     return {
-        categories: defaultViewReducer.categories,
-        posts: defaultViewReducer.posts
+        categories: appReducer.categories,
+        posts: appReducer.posts
     }
 }
 

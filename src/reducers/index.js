@@ -7,7 +7,7 @@ const initialState = {
     posts:[]
 }
 
-function defaultViewReducer(state = initialState, action){
+function appReducer(state = initialState, action){
     switch(action.type){
         case actionTypes.RECEIVE_CATEGORIES:
             return assign({}, state, {categories: action.categories})
@@ -18,4 +18,4 @@ function defaultViewReducer(state = initialState, action){
     }
 }
 
-export default combineReducers({defaultViewReducer});
+export default combineReducers({appReducer});

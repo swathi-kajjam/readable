@@ -28,7 +28,7 @@ class PostsList extends Component{
                 </div>
                 <ul className='posts-list'>
                     {posts.map(post => (
-                        <li className='posts-list-item' key={post.id}> {post.title}</li>
+                        <Link key={post.id} to={`/post/${post.id}`}> <li className='posts-list-item'> {post.title}</li></Link>
                     ))}
                 </ul>
                 <Link to="/addPost"> Add Post </Link>
