@@ -4,29 +4,40 @@ body {
   font-family: sans-serif;
 }
 
+.flex-container{
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+  width: 90%;
+}
+.flex-item{
+  width: 100%;
+  margin: 20px;
+  border: 1px solid #d5d8df;
+  border-radius: 4px;
+}
+
 .categories-list {
-  list-style-type: none;
-  width:100%;
-  padding:0;
-  margin:0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
 }
 
 .categories-list-item{
-  padding: 20px;
-  background: white;
-  display:flex;
+    padding: 20px;
+    text-align: left;
 }
 
-.posts-list {
-  list-style-type: none;
-  width:100%;
-  padding:0;
-  margin:0;
+.posts-list{
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
 }
 
-.posts-list-item{
-  padding: 20px;
-  background: white;
-  display:flex;
+.posts-list-item {
+    padding: 20px;
+    text-align: left;
 }
-

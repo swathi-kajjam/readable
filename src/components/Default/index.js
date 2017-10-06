@@ -16,8 +16,7 @@ class DefaultView extends Component{
     render(){
 
         return(
-            <div>
-              Default View
+            <div className="flex-container">
                 <CategoryList categories={this.props.categories} />
                 <PostsList posts={this.props.posts}/>
             </div>
@@ -26,7 +25,6 @@ class DefaultView extends Component{
 }
 
 const mapStateToProps = ({defaultViewReducer}) => {
-    console.log(defaultViewReducer.posts)
     return {
         categories: defaultViewReducer.categories,
         posts: defaultViewReducer.posts
