@@ -18,7 +18,7 @@ class PostDetailView extends Component{
         console.log(post)
         return(
             <div className='flex-container'>
-                <div className='flex-item details'>
+                <div className='details post'>
                     <h1>Post Detail View</h1>
                     <div>
                         <label>Title:</label>
@@ -37,7 +37,7 @@ class PostDetailView extends Component{
                         <span>{post.timestamp}</span>
                     </div>
                 </div>
-                <div className='flex-item details'>
+                <div className='details comments'>
                     <h1>Comments </h1>
                     { (this.props.comments && this.props.comments.length > 0)&&(
                         this.props.comments.map(comment=>(
