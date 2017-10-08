@@ -14,7 +14,6 @@ class App extends Component {
             <Route exact path='/:category' component={CategoryView}/>
             <Route exact path='/post/:id' component={PostDetailView}/>
             <Route path='/addPost' component={CreatePostView}/>
-
         </div>
     );
   }

@@ -15,7 +15,6 @@ class PostsList extends Component{
     }
 
     render() {
-        console.log('rerendering')
         const posts = orderBy(this.props.posts, this.state.value, ['desc'])
         return (
             <div className="flex-item">

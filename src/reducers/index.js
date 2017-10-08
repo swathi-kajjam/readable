@@ -4,7 +4,7 @@ import {assign} from'lodash';
 
 const initialState = {
     categories: [],
-    posts:[]
+    posts:[],
 }
 
 function appReducer(state = initialState, action){
@@ -18,4 +18,17 @@ function appReducer(state = initialState, action){
     }
 }
 
-export default combineReducers({appReducer});
+const commentsInitialState = {
+    comments: []
+}
+
+function commentsReducer(state = commentsInitialState, action){
+    switch(action.type){
+        case actionTypes.RECEIVE_COMMENTS:
+            return assign({}, state, {comments: action.comments})
+        default:
+            return state;
+    }
+}
+
+export default combineReducers({appReducer, commentsReducer});

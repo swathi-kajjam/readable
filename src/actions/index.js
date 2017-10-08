@@ -12,6 +12,11 @@ export const receiveAllPosts = posts => ({
     posts
 })
 
+export const receiveAllComments = comments => ({
+    type: ActionTypes.RECEIVE_COMMENTS,
+    comments
+})
+
 export const getAllCategories = () => dispatch => {
     readableAPI.getAllCategories()
         .then(categories => {
@@ -26,6 +31,9 @@ export const getAllPosts = () => dispatch => {
         })
 }
 
-export const getPostDetails = () => dispatch => {
-
+export const getComments = (id) => dispatch => {
+    readableAPI.getComments(id)
+        .then(comments => {
+            dispatch(receiveAllComments(comments))
+        })
 }
