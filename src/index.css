@@ -58,14 +58,39 @@ label{
     background-color: #f6f7f9;
 }
 
+.edit-post{
+    margin-right: 8px;
+}
+
 .details{
     width: 60% !important;
     margin-left: 20%;
     height: 200px;
+    padding-top: 25px;
 }
 
 .details > div {
     width: 70%;
     margin-left:35%;
     text-align: left;
+    margin-bottom: 12px;
+}
+
+.text{
+    background-color:transparent !important;
+    font-family: 'Helvetica Neue", Helvetica, Arial, sans-serif';
+    font-size:12px;
+    padding:5px 7px;
+    border-radius: 25px;
+    width:260px;
+    border:2px solid #a1a1a1;
+}
+
+.button{
+    background-color:#365899;
+    color:white;
+    text-align: center;
+    font-size: 16px;
+    margin: 4px 2px;
+    padding:3px 6px;
 }

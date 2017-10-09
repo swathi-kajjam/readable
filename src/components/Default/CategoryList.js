@@ -8,7 +8,7 @@ function CategoryList(props){
             <ul className='categories-list'>
                 {props.categories.map(catg => (
                     <li className='categories-list-item' key={catg.name}>
-                        <Link to={catg.name}> {catg.name}</Link>
+                        <Link to={`/category/${catg.name}`}> {catg.name}</Link>
                     </li>
                 ))}
             </ul>

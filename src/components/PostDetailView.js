@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {getComments} from '../actions';
 import {orderBy} from 'lodash';
+import {Link} from 'react-router-dom';
+import {deletePost} from '../actions';
 
 class PostDetailView extends Component{
     constructor(props, context){
@@ -12,14 +14,22 @@ class PostDetailView extends Component{
         this.props.getAllComments(this.props.match.params.id)
     }
 
+    deletePost = (event) => {
+        this.props.deletePostDetail(event.target.id);
+        event.preventDefault();
+    }
+
     render(){
         const post = this.props.posts.find(post => post.id === this.props.match.params.id);
-        console.log('<---------Render Posts ---------->')
-        console.log(post)
+
         return(
             <div className='flex-container'>
                 <div className='details post'>
                     <h1>Post Detail View</h1>
+                    <div>
+                        <Link to={`/EditPost/${post.id}`} className='edit-post'> Edit </Link>
+                        <a href='#' id={post.id} onClick={this.deletePost}> Delete </a>
+                    </div>
                     <div>
                         <label>Title:</label>
                         <span>{post.title}</span>
@@ -55,22 +65,12 @@ class PostDetailView extends Component{
     }
 }
 
-const assignCommentsToPosts = (posts, comments) => {
-    if(comments.length >0){
-        const parentId = comments[0].parentId;
-        posts.map(post=>{
-            if(post.id === parentId){
-                post.comments = comments
-            }
-        })
-    }
-    return posts;
-}
 
-const mapStateToProps = ({appReducer, commentsReducer}) => {
+const mapStateToProps = ({appReducer}) => {
+    console.log(appReducer.posts)
     return {
         posts:appReducer.posts,
-        comments:orderBy(commentsReducer.comments, 'voteScore', ['desc'])
+        comments:orderBy(appReducer.comments, 'voteScore', ['desc'])
     }
 }
 
@@ -78,6 +78,10 @@ const mapDispatchToProps = (dispatch) => {
     return {
         getAllComments: (id) => {
             dispatch(getComments(id))
+        },
+        deletePostDetail: (id) => {
+            dispatch(deletePost(id))
+            window.location = '/'
         }
     }
 }

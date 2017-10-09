@@ -17,6 +17,17 @@ export const receiveAllComments = comments => ({
     comments
 })
 
+export const updatePostInStore = post => ({
+    type: ActionTypes.UPDATE_POST,
+    post
+})
+
+export const deletePostInStore = id => ({
+    type: ActionTypes.DELETE_POST,
+    id
+})
+
+
 export const getAllCategories = () => dispatch => {
     readableAPI.getAllCategories()
         .then(categories => {
@@ -36,4 +47,14 @@ export const getComments = (id) => dispatch => {
         .then(comments => {
             dispatch(receiveAllComments(comments))
         })
+}
+
+export const updatePost = (post) => dispatch => {
+    readableAPI.updatePost(post)
+        .then(dispatch(updatePostInStore(post)))
+}
+
+export const deletePost = (id) => dispatch => {
+    readableAPI.deletePost(id)
+        .then(dispatch(deletePostInStore(id)))
 }

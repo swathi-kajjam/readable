@@ -15,7 +15,7 @@ class PostsList extends Component{
     }
 
     render() {
-        const posts = orderBy(this.props.posts, this.state.value, ['desc'])
+        const posts = orderBy(this.props.posts.filter(post=> post.deleted === false), this.state.value, ['desc'])
         return (
             <div className="flex-item">
                 <h1> Posts </h1>
