@@ -27,6 +27,21 @@ export const deletePostInStore = id => ({
     id
 })
 
+export const addCommentInStore = comment => ({
+    type: ActionTypes.ADD_COMMENT,
+    comment
+})
+
+export const updateCommentInStore = comment => ({
+    type: ActionTypes.UPDATE_COMMENT,
+    comment
+})
+
+export const deleteCommentInStore = id => ({
+    type: ActionTypes.DELETE_COMMENT,
+    id
+})
+
 
 export const getAllCategories = () => dispatch => {
     readableAPI.getAllCategories()
@@ -57,4 +72,19 @@ export const updatePost = (post) => dispatch => {
 export const deletePost = (id) => dispatch => {
     readableAPI.deletePost(id)
         .then(dispatch(deletePostInStore(id)))
+}
+
+export const addComment = (comment) => dispatch => {
+    readableAPI.addComment(comment)
+        .then(dispatch(addCommentInStore(comment)))
+}
+
+export const updateComment = (comment) => dispatch => {
+    readableAPI.updateComment(comment)
+        .then(cmnt => dispatch(updateCommentInStore(cmnt)))
+}
+
+export const deleteComment = (id) => dispatch => {
+    readableAPI.deleteComment(id)
+        .then(dispatch(deleteCommentInStore(id)))
 }

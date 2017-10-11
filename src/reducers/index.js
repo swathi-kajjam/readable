@@ -29,6 +29,21 @@ function appReducer(state = initialState, action){
             return assign({}, state, {
                 posts: state.posts.filter(post => post.id !== action.id).concat(post)
             })
+        case actionTypes.ADD_COMMENT:
+            return assign({}, state, {
+                comments: state.comments.concat(action.comment)
+            })
+        case actionTypes.UPDATE_COMMENT:
+            const comments = state.comments.filter(comment => comment.id !== action.comment.id);
+            return assign({}, state, {
+                comments: comments.concat(action.comment)
+            })
+        case actionTypes.DELETE_COMMENT:
+            const comment = state.comments.filter(comment => comment.id === action.id);
+            comment.deleted = true;
+            return assign({}, state, {
+                comments:  state.comments.filter(comment => comment.id !== action.id).concat(comment)
+            })
         default:
             return state;
     }

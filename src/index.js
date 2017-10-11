@@ -8,12 +8,16 @@ import reducer from './reducers';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { BrowserRouter } from 'react-router-dom';
+import {getAllCategories, getAllPosts} from './actions';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 const store = createStore(reducer,
     composeEnhancers(
         applyMiddleware(thunk)
     ));
+
+store.dispatch(getAllCategories());
+store.dispatch(getAllPosts())
 
 ReactDOM.render(<BrowserRouter><Provider store={store}><App/></Provider></BrowserRouter>, document.getElementById('root'));
 registerServiceWorker();

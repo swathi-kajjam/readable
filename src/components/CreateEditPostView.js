@@ -49,7 +49,7 @@ class CreateEditPostView extends Component {
                     <span>{this.state.post.timestamp}</span>
                 </div>
                 <div>
-                    <input type="button" className="button" value="Update" onClick={this.updatePost}/>
+                    <input type="button" className="btn" value="Update" onClick={this.updatePost}/>
                 </div>
 
             </div>

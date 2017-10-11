@@ -1,16 +1,11 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import {getAllCategories, getAllPosts} from '../../actions';
 import CategoryList from './CategoryList';
 import PostsList from '../Common/PostsList';
 
 class DefaultView extends Component{
     constructor(props, context){
         super(props)
-    }
-    componentDidMount(){
-        this.props.getCategories()
-        this.props.getAllPosts()
     }
 
     render(){
@@ -33,12 +28,6 @@ const mapStateToProps = ({appReducer}) => {
 
 const mapDisPatchToProps = (dispatch) => {
     return {
-        getCategories: () => {
-            dispatch(getAllCategories())
-        },
-        getAllPosts: () => {
-            dispatch(getAllPosts())
-        }
     }
 }
 export default connect(mapStateToProps, mapDisPatchToProps)(DefaultView);

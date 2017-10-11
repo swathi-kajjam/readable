@@ -65,7 +65,7 @@ label{
 .details{
     width: 60% !important;
     margin-left: 20%;
-    height: 200px;
+    height: 264px;
     padding-top: 25px;
 }
 
@@ -86,11 +86,65 @@ label{
     border:2px solid #a1a1a1;
 }
 
-.button{
+.lrg{
+    width:330px;
+    height:25px;
+    display: block;
+}
+
+.comment-link{
+    margin-left: 10px;
+}
+
+.btn{
     background-color:#365899;
     color:white;
     text-align: center;
     font-size: 16px;
     margin: 4px 2px;
     padding:3px 6px;
+}
+
+.overlay {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    background-color: rgba(255, 255, 255, 0.75);
+}
+
+.modal {
+    position: absolute;
+    top: 40px;
+    left: 200px;
+    right: 200px;
+    bottom: 40px;
+    border: 1px solid rgb(204, 204, 204);
+    background: rgb(255, 255, 255);
+    overflow: auto;
+    border-radius: 4px;
+    outline: none;
+    padding: 20px;
+    border-radius: 3px;
+    box-shadow: 0 3px 8px 0 rgba(0,0,0,.24), 0 3px 12px 0 rgba(0,0,0,.12);
+    min-width: 500px;
+}
+
+.comment-author{
+    font-weight:bold;
+    white-space:nowrap;
+    color: #365899;
+}
+
+.comment-body{
+    width:60%;
+    display:inline-block;
+}
+
+.hide{
+    display: none;
+}
+.show{
+    display: block;
 }
