@@ -1,19 +1,30 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {updatePost} from '../actions'
-
+import {updatePost, addPost} from '../actions'
 
 class CreateEditPostView extends Component {
     constructor(props, context){
         super(props);
-        this.state = {
-            post: {}
-        }
-    }
 
-    componentDidMount(){
-        const postDetail = this.props.posts.find(post => post.id === this.props.match.params.id);
-        this.setState({post: postDetail})
+        const postId = this.props.match.params.id;
+        if(postId){
+            const post = this.props.posts.find(post => post.id === this.props.match.params.id);
+            this.state = {
+                post,
+                isEditMode: true
+            }
+        }
+        else{
+            this.state= {
+                post: {
+                    title:'',
+                    body:'',
+                    author:'',
+                    timeStamp: new Date().getTime()
+                },
+                isEditMode: false
+            }
+        }
     }
 
     handleChange = (event) => {
@@ -23,11 +34,13 @@ class CreateEditPostView extends Component {
     }
 
     updatePost = (event) => {
+        this.state.post.timeStamp = new Date().getTime();
         this.props.updatePostDetails(this.state.post);
         event.preventDefault()
     }
 
     render(){
+        const {isEditMode} = this.state;
        return(
         <div className='flex-container'>
            <h1>Create / Edit Post</h1>
@@ -49,7 +62,7 @@ class CreateEditPostView extends Component {
                     <span>{this.state.post.timestamp}</span>
                 </div>
                 <div>
-                    <input type="button" className="btn" value="Update" onClick={this.updatePost}/>
+                    <input type="button" className="btn" value={isEditMode? 'Update': 'Add'} onClick={this.updatePost}/>
                 </div>
 
             </div>
@@ -67,6 +80,10 @@ const mapDispatchToProps = (dispatch) => {
     return {
         updatePostDetails: (post) => {
             dispatch(updatePost(post));
+            window.location = `/`;
+        },
+        addPostDetails: (post) => {
+            dispatch(addPost(post));
             window.location = `/`;
         }
     }

@@ -42,6 +42,10 @@ export const deleteCommentInStore = id => ({
     id
 })
 
+export const addPostInStore = post => ({
+    type: ActionTypes.ADD_POST,
+    post
+})
 
 export const getAllCategories = () => dispatch => {
     readableAPI.getAllCategories()
@@ -57,11 +61,9 @@ export const getAllPosts = () => dispatch => {
         })
 }
 
-export const getComments = (id) => dispatch => {
-    readableAPI.getComments(id)
-        .then(comments => {
-            dispatch(receiveAllComments(comments))
-        })
+export const addPost = (post) => dispatch => {
+    readableAPI.addPost(post)
+        .then(post => dispatch(addPostInStore(post)))
 }
 
 export const updatePost = (post) => dispatch => {
@@ -72,6 +74,13 @@ export const updatePost = (post) => dispatch => {
 export const deletePost = (id) => dispatch => {
     readableAPI.deletePost(id)
         .then(dispatch(deletePostInStore(id)))
+}
+
+export const getComments = (id) => dispatch => {
+    readableAPI.getComments(id)
+        .then(comments => {
+            dispatch(receiveAllComments(comments))
+        })
 }
 
 export const addComment = (comment) => dispatch => {

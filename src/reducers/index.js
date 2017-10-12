@@ -44,6 +44,10 @@ function appReducer(state = initialState, action){
             return assign({}, state, {
                 comments:  state.comments.filter(comment => comment.id !== action.id).concat(comment)
             })
+        case actionTypes.ADD_POST:
+            assign({}, state, {
+                posts: state.posts.concat(action.post)
+            })
         default:
             return state;
     }
