@@ -13,8 +13,8 @@ class PostDetailView extends Component{
         this.state = {
             commentsModalOpen: false,
             isCommentEditMode: false,
-            commentInEditMode: {}
-
+            commentInEditMode: {},
+            category: this.props.match.params.category
         }
     }
 
@@ -72,8 +72,8 @@ class PostDetailView extends Component{
     }
 
     render(){
-        const post = this.props.posts.find(post => post.id === this.props.match.params.id);
-        const {commentInEditMode, isCommentEditMode} = this.state;
+        const post = this.props.posts.find(post => post.id === this.props.match.params.post_id);
+        const {commentInEditMode, isCommentEditMode, category} = this.state;
 
         let html;
 
@@ -107,7 +107,7 @@ class PostDetailView extends Component{
                 <div className='details post'>
                     <h1>Post Detail View</h1>
                     <div>
-                        <Link to={`/EditPost/${post.id}`} className='edit-post'> Edit </Link>
+                        <Link to={`/${category}/${post.id}/Edit`} className='edit-post'> Edit </Link>
                         <a href='#' id={post.id} onClick={this.deletePost}> Delete </a>
                     </div>
                     <div>

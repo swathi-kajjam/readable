@@ -1,12 +1,15 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import {orderBy} from 'lodash';
+import VotingView from '../VotingView';
 
 class PostsList extends Component{
     constructor(props, context){
         super(props);
+
         this.state = {
-            value:'voteScore'
+            value:'voteScore',
+            category: this.props.category || ''
         }
     }
 
@@ -15,7 +18,10 @@ class PostsList extends Component{
     }
 
     render() {
-        const posts = orderBy(this.props.posts.filter(post=> post.deleted === false), this.state.value, ['desc'])
+
+        const posts = orderBy(this.props.posts.filter(post=> post.deleted === false), this.state.value, ['desc']),
+              category = this.state.category;
+
         return (
             <div className="flex-item">
                 <h1> Posts </h1>
@@ -27,10 +33,15 @@ class PostsList extends Component{
                 </div>
                 <ul className='posts-list'>
                     {posts.map(post => (
-                        <Link key={post.id} to={`/post/${post.id}`}> <li className='posts-list-item'> {post.title}</li></Link>
+                        <Link key={post.id} to={`/${post.category}/${post.id}`}>
+                            <li className='posts-list-item'>
+                                {post.title} <VotingView isPosts={true} voteScore={post.voteScore} id={post.id}/>
+                            </li>
+                        </Link>
                     ))}
                 </ul>
-                <Link to="/addPost"> Add Post </Link>
+
+                {category && <Link to={`${category}/post/new`}> Add Post </Link>}
             </div>
         )
     }

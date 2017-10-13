@@ -10,13 +10,11 @@ class App extends Component {
   render() {
     return (
         <div className="App">
-
-            <Route exact path='/post/:id' component={PostDetailView}/>
-            <Route exact path='/editPost/:id' component={CreateEditPostView}/>
-            <Route exact path='/addPost' component={CreateEditPostView}/>
-            <Route exact path='/category/:category' component={CategoryView}/>
+            <Route exact path="/:category/post/new" component={CreateEditPostView} />
+            <Route exact path="/:category/:post_id/Edit" component={CreateEditPostView} />
+            <Route exact path="/:category/:post_id" component={PostDetailView} />
             <Route exact path='/' component={DefaultView}/>
-
+            <Route exact path='/:category' component={CategoryView}/>
         </div>
     );
   }

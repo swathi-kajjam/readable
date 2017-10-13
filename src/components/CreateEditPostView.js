@@ -1,17 +1,17 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {updatePost, addPost} from '../actions'
+import {updatePost, addPost} from '../actions';
+import serializeForm from 'form-serialize';
 
 class CreateEditPostView extends Component {
     constructor(props, context){
         super(props);
-
-        const postId = this.props.match.params.id;
+        const postId = this.props.match.params.post_id;
         if(postId){
-            const post = this.props.posts.find(post => post.id === this.props.match.params.id);
+            const post = this.props.posts.find(post => post.id === postId);
             this.state = {
                 post,
-                isEditMode: true
+                isEditMode: true,
             }
         }
         else{
@@ -20,7 +20,8 @@ class CreateEditPostView extends Component {
                     title:'',
                     body:'',
                     author:'',
-                    timeStamp: new Date().getTime()
+                    category: this.props.match.params.category,
+                    id: Math.random().toString(36).substr(-8)
                 },
                 isEditMode: false
             }
@@ -33,39 +34,51 @@ class CreateEditPostView extends Component {
         this.setState({post})
     }
 
-    updatePost = (event) => {
-        this.state.post.timeStamp = new Date().getTime();
-        this.props.updatePostDetails(this.state.post);
+    addUpdatePost = (event) => {
         event.preventDefault()
+        const values = serializeForm(event.target, {hash:true})
+        values.timestamp = new Date().getTime();
+        if(this.state.isEditMode){
+            this.props.updatePostDetails(values);
+        }
+        else{
+            values.id = Math.random().toString(36).substr(-8);
+            this.props.addPostDetails(values);
+        }
+
+
     }
 
     render(){
-        const {isEditMode} = this.state;
+        const {isEditMode, post} = this.state;
        return(
         <div className='flex-container'>
            <h1>Create / Edit Post</h1>
-            <div className='details post'>
+            <form className='details post' onSubmit={this.addUpdatePost} >
+
                 <div>
                     <label>Title:</label>
-                    <input className='text' name='title' type='text' value={this.state.post.title} onChange={this.handleChange}></input>
+                    <input className='text' name='title' type='text' value={post.title} onChange={this.handleChange}></input>
                 </div>
                 <div>
                     <label>Body:</label>
-                    <input className='text' name='body' type='text' value={this.state.post.body} onChange={this.handleChange}></input>
+                    <input className='text' name='body' type='text' value={post.body} onChange={this.handleChange}></input>
                 </div>
                 <div>
                     <label>Author:</label>
-                    <span>{this.state.post.author}</span>
+                    <input className='text' name='author' type='text' value={post.author} onChange={this.handleChange}
+                    disabled={isEditMode === true}></input>
                 </div>
                 <div>
-                    <label>Timestamp:</label>
-                    <span>{this.state.post.timestamp}</span>
+                    <input type='hidden' name='category' value={post.category}/>
+                    <input type='hidden' name='id' value={post.id}/>
                 </div>
                 <div>
-                    <input type="button" className="btn" value={isEditMode? 'Update': 'Add'} onClick={this.updatePost}/>
+                    <button className="btn" > {isEditMode? 'Update': 'Add'} </button>
                 </div>
 
-            </div>
+
+            </form>
        </div>)
     }
 }

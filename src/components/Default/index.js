@@ -9,7 +9,6 @@ class DefaultView extends Component{
     }
 
     render(){
-
         return(
             <div className="flex-container">
                 <CategoryList categories={this.props.categories} />

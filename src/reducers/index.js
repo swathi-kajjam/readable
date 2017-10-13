@@ -9,19 +9,17 @@ const initialState = {
 }
 
 function appReducer(state = initialState, action){
-    let posts;
+
     switch(action.type){
         case actionTypes.RECEIVE_CATEGORIES:
-            return assign({}, state, {categories: action.categories})
+            return assign({}, state, {categories: action.categories});
         case actionTypes.RECEIVE_ALL_POSTS:
             return assign({}, state, {posts: action.posts})
         case actionTypes.RECEIVE_COMMENTS:
             return assign({}, state, {comments: action.comments})
         case actionTypes.UPDATE_POST:
-            posts = state.posts
-            posts.filter(post => post.id !== action.post.id).concat(action.post);
             return assign({}, state, {
-                posts: posts
+                posts: state.posts.filter(post => post.id !== action.post.id).concat(action.post)
             });
         case actionTypes.DELETE_POST:
             const post = state.posts.find(post => post.id === action.id);
@@ -34,9 +32,8 @@ function appReducer(state = initialState, action){
                 comments: state.comments.concat(action.comment)
             })
         case actionTypes.UPDATE_COMMENT:
-            const comments = state.comments.filter(comment => comment.id !== action.comment.id);
             return assign({}, state, {
-                comments: comments.concat(action.comment)
+                comments: state.comments.filter(comment => comment.id !== action.comment.id).concat(action.comment)
             })
         case actionTypes.DELETE_COMMENT:
             const comment = state.comments.filter(comment => comment.id === action.id);

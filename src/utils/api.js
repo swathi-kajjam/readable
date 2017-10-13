@@ -25,12 +25,13 @@ export const getAllPosts = () =>
 export const addPost = (post) =>
     fetch(`${api}/posts`, {
         method: 'POST',
-        headers:{
+        headers: {
             ...headers,
-            'Content-Type': 'application-json'
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify(post)
     }).then(res => res.json())
+
 
 export const updatePost = (post) =>
     fetch(`${api}/posts/${post.id}`, {
@@ -46,6 +47,16 @@ export const deletePost = (id) =>
     fetch(`${api}/posts/${id}`, {
         method: 'DELETE',
         headers
+    }).then(res => res.json())
+
+export const updatePostVoting = (id, option) =>
+     fetch(`${api}/posts/${id}`, {
+        method: 'POST',
+        headers: {
+            ...headers,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(option)
     }).then(res => res.json())
 
 // Comment API Methods
@@ -77,5 +88,15 @@ export const deleteComment = (id) =>
     fetch(`${api}/comments/${id}`, {
         method: 'DELETE',
         headers
+    }).then(res => res.json())
+
+export const updateCommentVoting = (id, option) =>
+    fetch(`${api}/comments/${id}`, {
+        method: 'POST',
+        headers: {
+            ...headers,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(option)
     }).then(res => res.json())
 

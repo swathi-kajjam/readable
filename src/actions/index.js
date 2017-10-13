@@ -27,6 +27,11 @@ export const deletePostInStore = id => ({
     id
 })
 
+export const updatePostVoteInStore = post => ({
+    type: ActionTypes.UPDATE_POST_VOTE,
+    post
+})
+
 export const addCommentInStore = comment => ({
     type: ActionTypes.ADD_COMMENT,
     comment
@@ -76,6 +81,11 @@ export const deletePost = (id) => dispatch => {
         .then(dispatch(deletePostInStore(id)))
 }
 
+export const updatePostVoting = (id, option) => dispatch => {
+    readableAPI.updatePostVoting(id, option)
+        .then(post => dispatch(updatePostInStore(post)))
+}
+
 export const getComments = (id) => dispatch => {
     readableAPI.getComments(id)
         .then(comments => {
@@ -96,4 +106,9 @@ export const updateComment = (comment) => dispatch => {
 export const deleteComment = (id) => dispatch => {
     readableAPI.deleteComment(id)
         .then(dispatch(deleteCommentInStore(id)))
+}
+
+export const updateCommentVoting = (id, option) => dispatch => {
+    readableAPI.updateCommentVoting(id, option)
+        .then(cmnt => dispatch(updateCommentInStore(cmnt)))
 }
