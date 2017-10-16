@@ -28,7 +28,6 @@ class PostsList extends Component{
                    </div>
                )}
 
-
                 {posts.map(post => (
 
                     <div key={post.id} className="card blue-grey darken-1">

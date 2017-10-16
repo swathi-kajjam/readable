@@ -48,7 +48,7 @@ class CreateEditPostView extends Component {
     }
 
     render(){
-        const {isEditMode, post} = this.state;
+       const {isEditMode, post} = this.state;
        return(
            <div className='row'>
                <h1>Create / Edit Post</h1>
@@ -85,8 +85,6 @@ class CreateEditPostView extends Component {
                    </div>
                </form>
            </div>
-
-
        )
     }
 }

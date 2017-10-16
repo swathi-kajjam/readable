@@ -76,6 +76,7 @@ class PostDetailView extends Component{
 
         if(this.props.posts.length > 0){
             post = this.props.posts.find(post => post.id === this.props.match.params.post_id);
+            //If no post exists with the Id, redirect to Home Page
             if(!post){
                 return window.location='/'
             }
@@ -84,7 +85,6 @@ class PostDetailView extends Component{
 
 
         const {commentInAddEditMode, isCommentEditMode, category} = this.state;
-
         let commentHtml;
 
         if(isCommentEditMode === true){
@@ -128,38 +128,39 @@ class PostDetailView extends Component{
                 <h5> Post Detail View </h5>
                 {post && (
                     <div>
-                    <div key={post.id} className="card light-blue darken-4">
-                        <div className="card-content white">
+                        <div key={post.id} className="card light-blue darken-4">
+                            <div className="card-content white">
 
-                            <span className="card-title">   <span className='author'>{post.author} : </span> {post.title}<span className="comments-nbr">Comments:{post.comments && post.comments.length}</span></span>
-                            <VotingView isPosts={true} voteScore={post.voteScore} id={post.id}/>
+                                <span className="card-title">   <span className='author'>{post.author} : </span> {post.title}<span className="comments-nbr">Comments:{post.comments && post.comments.length}</span></span>
+                                <VotingView isPosts={true} voteScore={post.voteScore} id={post.id}/>
+                            </div>
+                            <div className="card-action">
+                                <Link to={`/${category}/${post.id}/Edit`}>Edit</Link>
+                                <Link to='#' id={post.id} onClick={this.deletePost}> Delete </Link>
+                            </div>
                         </div>
-                        <div className="card-action">
-                            <Link to={`/${category}/${post.id}/Edit`}>Edit</Link>
-                            <Link to='#' id={post.id} onClick={this.deletePost}> Delete </Link>
-                        </div>
-                    </div>
-                    <div className="row">
-                            <Modal
-                                className='comment-modal'
-                                overlayClassName='comment-overlay'
-                                isOpen={this.state.commentsModalOpen}
-                                onRequestClose={this.closeCommentsModal}
-                                contentLabel='Modal'>
-                                <div className="row">
-                                    <form className="col s12" onSubmit={this.addComment}>
-                                        <div className="row">
-                                            <div className="input-field col s12">
-                                                <input type='hidden' name='parentId' value={post.id}/>
-                                                <input type='hidden' name='timestamp' value={commentInAddEditMode.timeStamp} />
-                                                <input type='hidden' name='id' value={commentInAddEditMode.id} />
+
+                        <div className="row">
+                                <Modal
+                                    className='comment-modal'
+                                    overlayClassName='comment-overlay'
+                                    isOpen={this.state.commentsModalOpen}
+                                    onRequestClose={this.closeCommentsModal}
+                                    contentLabel='Modal'>
+                                    <div className="row">
+                                        <form className="col s12" onSubmit={this.addComment}>
+                                            <div className="row">
+                                                <div className="input-field col s12">
+                                                    <input type='hidden' name='parentId' value={post.id}/>
+                                                    <input type='hidden' name='timestamp' value={commentInAddEditMode.timeStamp} />
+                                                    <input type='hidden' name='id' value={commentInAddEditMode.id} />
+                                                </div>
                                             </div>
-                                        </div>
-                                        {commentHtml}
-                                    </form>
-                                </div>
-                            </Modal>
-                        </div>
+                                            {commentHtml}
+                                        </form>
+                                    </div>
+                                </Modal>
+                            </div>
                     </div>
                 )}
 
@@ -168,7 +169,7 @@ class PostDetailView extends Component{
 
                     {(comments && comments.length > 0)&&(
                         <div>
-                        <div className=" card card-panel teal lighten-2"> Comments</div>
+                             <div className=" card card-panel teal lighten-2"> Comments</div>
                             {comments.map(comment=>(
                                 <div key={comment.id} className="card cyan darken-4">
                                     <div className="card-content white">
@@ -181,19 +182,15 @@ class PostDetailView extends Component{
                                     </div>
                                 </div>
                             ))}
-
                         </div>
                     )}
 
                     <button className='btn' onClick={this.openCommentsModalInAddMode}>Add Comment</button>
                 </div>
-
             </div>
-
         )
     }
 }
-
 
 const mapStateToProps = ({appReducer}) => {
     return {
