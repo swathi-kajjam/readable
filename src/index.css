@@ -146,7 +146,7 @@ label{
 .card{
     width:60%;
     height:100px;
-    margin: 10% 20%;
+    margin:3% 20% 9% 20%
 }
 
 .card-panel{
@@ -171,4 +171,8 @@ label{
     font-size: small;
     position:absolute;
     right:20px;
+}
+
+.voteScore{
+    padding:5px;
 }

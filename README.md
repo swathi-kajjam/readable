@@ -14,7 +14,7 @@ CreateEditPostView - Allows users to create or update Post details
 
 ## Installation Instruction:
 #Note: If service is not running on port 3001, please run below command with the port on which service is running.otherwise please skip command 1
-command 1)export REACT_APP_BACKEND = 'http://localhost:3001'
+command 1)export REACT_APP_BACKEND='http://localhost:3001'
 command 2)npm install
 command 3)npm start
 

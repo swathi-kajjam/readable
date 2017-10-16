@@ -76,6 +76,9 @@ class PostDetailView extends Component{
 
         if(this.props.posts.length > 0){
             post = this.props.posts.find(post => post.id === this.props.match.params.post_id);
+            if(!post){
+                return window.location='/'
+            }
             comments = post.comments &&  post.comments.filter(comment=> comment.deleted === false)
         }
 

@@ -19,7 +19,7 @@ class Voting extends Component{
         return(
             <div>
                 <button votetype='downVote' onClick={this.updateVoting}>-</button>
-                <span> {this.props.voteScore}</span>
+                <span className='voteScore'> {this.props.voteScore}</span>
                 <button votetype='upVote' onClick={this.updateVoting}>+</button>
             </div>
         )
