@@ -1,7 +1,7 @@
 import * as ActionTypes from './ActionTypes';
 import * as readableAPI from '../utils/api';
 
-//DEFAULT VIEW
+//Default View Actions
 export const receiveCategories = categories => ({
     type: ActionTypes.RECEIVE_CATEGORIES,
     categories
@@ -18,6 +18,7 @@ export const receiveAllComments = (comments, postId) => ({
     postId
 })
 
+//Post Actions
 export const updatePostInStore = post => ({
     type: ActionTypes.UPDATE_POST,
     post
@@ -33,7 +34,13 @@ export const updatePostVoteInStore = post => ({
     post
 })
 
-export const updateCommenVotetInStore = comment => ({
+export const addPostInStore = post => ({
+    type: ActionTypes.ADD_POST,
+    post
+})
+
+//Comment Actions
+export const updateCommenVoteInStore = comment => ({
     type: ActionTypes.UPDATE_COMMENT_VOTE,
     comment
 })
@@ -54,22 +61,12 @@ export const deleteCommentInStore = (id, parentId) => ({
     parentId
 })
 
-export const addPostInStore = post => ({
-    type: ActionTypes.ADD_POST,
-    post
-})
-
+//Thunk methods
 export const getAllCategories = () => dispatch => {
     readableAPI.getAllCategories()
         .then(categories => {
             dispatch(receiveCategories(categories))
         })
-}
-
-export const receiveAllCommentsForPosts = posts => dispatch => {
-    posts.forEach(post => {
-        dispatch(getComments(post.id))
-    })
 }
 
 export const getAllPosts = () => dispatch => {
@@ -78,6 +75,12 @@ export const getAllPosts = () => dispatch => {
             dispatch(receiveAllPosts(posts))
             dispatch(receiveAllCommentsForPosts(posts))
         })
+}
+
+export const receiveAllCommentsForPosts = posts => dispatch => {
+    posts.forEach(post => {
+        dispatch(getComments(post.id))
+    })
 }
 
 export const addPost = (post) => dispatch => {
@@ -124,5 +127,5 @@ export const deleteComment = (id) => dispatch => {
 
 export const updateCommentVoting = (id, option) => dispatch => {
     readableAPI.updateCommentVoting(id, option)
-        .then(cmnt => dispatch(updateCommenVotetInStore(cmnt)))
+        .then(cmnt => dispatch(updateCommenVoteInStore(cmnt)))
 }
