@@ -12,9 +12,10 @@ export const receiveAllPosts = posts => ({
     posts
 })
 
-export const receiveAllComments = comments => ({
+export const receiveAllComments = (comments, postId) => ({
     type: ActionTypes.RECEIVE_COMMENTS,
-    comments
+    comments,
+    postId
 })
 
 export const updatePostInStore = post => ({
@@ -32,6 +33,11 @@ export const updatePostVoteInStore = post => ({
     post
 })
 
+export const updateCommenVotetInStore = comment => ({
+    type: ActionTypes.UPDATE_COMMENT_VOTE,
+    comment
+})
+
 export const addCommentInStore = comment => ({
     type: ActionTypes.ADD_COMMENT,
     comment
@@ -42,9 +48,10 @@ export const updateCommentInStore = comment => ({
     comment
 })
 
-export const deleteCommentInStore = id => ({
+export const deleteCommentInStore = (id, parentId) => ({
     type: ActionTypes.DELETE_COMMENT,
-    id
+    id,
+    parentId
 })
 
 export const addPostInStore = post => ({
@@ -59,10 +66,17 @@ export const getAllCategories = () => dispatch => {
         })
 }
 
+export const receiveAllCommentsForPosts = posts => dispatch => {
+    posts.forEach(post => {
+        dispatch(getComments(post.id))
+    })
+}
+
 export const getAllPosts = () => dispatch => {
     readableAPI.getAllPosts()
         .then(posts => {
             dispatch(receiveAllPosts(posts))
+            dispatch(receiveAllCommentsForPosts(posts))
         })
 }
 
@@ -83,32 +97,32 @@ export const deletePost = (id) => dispatch => {
 
 export const updatePostVoting = (id, option) => dispatch => {
     readableAPI.updatePostVoting(id, option)
-        .then(post => dispatch(updatePostInStore(post)))
+        .then(post => dispatch(updatePostVoteInStore(post)))
 }
 
 export const getComments = (id) => dispatch => {
     readableAPI.getComments(id)
         .then(comments => {
-            dispatch(receiveAllComments(comments))
+            dispatch(receiveAllComments(comments, id))
         })
 }
 
 export const addComment = (comment) => dispatch => {
     readableAPI.addComment(comment)
-        .then(dispatch(addCommentInStore(comment)))
+        .then(comment => dispatch(addCommentInStore(comment)))
 }
 
 export const updateComment = (comment) => dispatch => {
     readableAPI.updateComment(comment)
-        .then(cmnt => dispatch(updateCommentInStore(cmnt)))
+        .then(comment => dispatch(updateCommentInStore(comment)))
 }
 
 export const deleteComment = (id) => dispatch => {
     readableAPI.deleteComment(id)
-        .then(dispatch(deleteCommentInStore(id)))
+        .then(comment => dispatch(deleteCommentInStore(id, comment.parentId)))
 }
 
 export const updateCommentVoting = (id, option) => dispatch => {
     readableAPI.updateCommentVoting(id, option)
-        .then(cmnt => dispatch(updateCommentInStore(cmnt)))
+        .then(cmnt => dispatch(updateCommenVotetInStore(cmnt)))
 }

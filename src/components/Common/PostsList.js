@@ -8,40 +8,41 @@ class PostsList extends Component{
         super(props);
 
         this.state = {
-            value:'voteScore',
-            category: this.props.category || ''
+            value:'voteScore'
         }
     }
 
     handleChange = (e) =>{
-        this.setState({value:e.target.value})
+        this.setState({value:e.target.getAttribute('value')})
     }
 
     render() {
-
-        const posts = orderBy(this.props.posts.filter(post=> post.deleted === false), this.state.value, ['desc']),
-              category = this.state.category;
-
+        const posts = orderBy(this.props.posts.filter(post=> post.deleted === false), this.state.value, ['desc'])
         return (
-            <div className="flex-item">
-                <h1> Posts </h1>
-                <div>
-                    Sort By: <select value={this.state.value} onChange={this.handleChange}>
-                                <option value='timestamp'> TimeStamp </option>
-                                <option value='voteScore'> VoteScore </option>
-                             </select>
-                </div>
-                <ul className='posts-list'>
-                    {posts.map(post => (
-                        <Link key={post.id} to={`/${post.category}/${post.id}`}>
-                            <li className='posts-list-item'>
-                                {post.title} <VotingView isPosts={true} voteScore={post.voteScore} id={post.id}/>
-                            </li>
-                        </Link>
-                    ))}
-                </ul>
+           <div>
 
-                {category && <Link to={`${category}/post/new`}> Add Post </Link>}
+               {(posts.length > 0) && (
+                   <div>
+                       <a className="waves-effect waves-light btn" value='timestamp' onClick={this.handleChange}>Date</a>
+                       <a className="waves-effect waves-light btn" value='voteScore' onClick={this.handleChange}>Score</a>
+                   </div>
+               )}
+
+
+                {posts.map(post => (
+
+                    <div key={post.id} className="card blue-grey darken-1">
+                        <div className="card-content white">
+                            <span className="card-title">   <span className='author'>{post.author} : </span> {post.title} <span className="comments-nbr">Comments:{post.comments && post.comments.length}</span></span>
+                             <VotingView isPosts={true} voteScore={post.voteScore} id={post.id}/>
+
+                        </div>
+                        <div className="card-action">
+                            <Link to={`/${post.category}/${post.id}`}>Edit</Link>
+                            <Link to="#">Delete</Link>
+                        </div>
+                    </div>
+                ))}
             </div>
         )
     }

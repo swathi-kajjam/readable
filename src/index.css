@@ -46,10 +46,13 @@ body {
 }
 
 label{
-    width: 15%;
-    display:inline-block;
+   margin-bottom: 8px;
 }
 
+.editform {
+    width: 60%;
+    margin:0% 20%;
+}
 .post {
     background-color: white;
 }
@@ -65,8 +68,7 @@ label{
 .details{
     width: 60% !important;
     margin-left: 20%;
-    height: 264px;
-    padding-top: 25px;
+    padding: 25px 0px;
 }
 
 .details > div {
@@ -97,15 +99,11 @@ label{
 }
 
 .btn{
-    background-color:#365899;
-    color:white;
-    text-align: center;
-    font-size: 16px;
-    margin: 4px 2px;
-    padding:3px 6px;
+  margin: 10px 10px;
+
 }
 
-.overlay {
+.comment-overlay {
     position: fixed;
     top: 0px;
     left: 0px;
@@ -114,7 +112,7 @@ label{
     background-color: rgba(255, 255, 255, 0.75);
 }
 
-.modal {
+.comment-modal {
     position: absolute;
     top: 40px;
     left: 200px;
@@ -131,11 +129,7 @@ label{
     min-width: 500px;
 }
 
-.comment-author{
-    font-weight:bold;
-    white-space:nowrap;
-    color: #365899;
-}
+
 
 .comment-body{
     width:60%;
@@ -147,4 +141,34 @@ label{
 }
 .show{
     display: block;
+}
+
+.card{
+    width:60%;
+    height:100px;
+    margin: 10% 20%;
+}
+
+.card-panel{
+    width:60%;
+    margin: 10% 20%;
+    height:30px;
+    margin-bottom: 10px;
+}
+
+.author{
+    display: inline-block;
+    font-weight:bold;
+    white-space:nowrap;
+    color: #365899;
+}
+
+.dropdown-button{
+    margin-top:40px;
+}
+
+.comments-nbr{
+    font-size: small;
+    position:absolute;
+    right:20px;
 }

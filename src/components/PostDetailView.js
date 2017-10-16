@@ -4,7 +4,9 @@ import {orderBy} from 'lodash';
 import {Link} from 'react-router-dom';
 import Modal from 'react-modal';
 import serializeForm from 'form-serialize';
-import {getComments, deletePost,addComment, updateComment, deleteComment} from '../actions';
+import VotingView from './VotingView';
+
+import {deletePost, addComment, updateComment, deleteComment} from '../actions';
 
 class PostDetailView extends Component{
     constructor(props, context){
@@ -13,19 +15,15 @@ class PostDetailView extends Component{
         this.state = {
             commentsModalOpen: false,
             isCommentEditMode: false,
-            commentInEditMode: {},
+            commentInAddEditMode: {},
             category: this.props.match.params.category
         }
-    }
-
-    componentDidMount(){
-        this.props.getAllComments(this.props.match.params.id)
     }
 
     openCommentsModalInAddMode = () => {
         this.setState({
             commentsModalOpen: true,
-            commentInEditMode: {
+            commentInAddEditMode: {
                 author:'',
                 body:'',
                 timeStamp: new Date().getTime(),
@@ -45,6 +43,7 @@ class PostDetailView extends Component{
             values.timeStamp = new Date().getTime();
             this.props.updatePostComment(values)
         }else{
+            console.log(values)
             this.props.addNewComment(values)
         }
         this.closeCommentsModal();
@@ -61,111 +60,132 @@ class PostDetailView extends Component{
     }
 
     openCommentsModalInEditMode = (event, comment) => {
-        this.setState({commentsModalOpen:true, isCommentEditMode:true, commentInEditMode: comment})
+        this.setState({commentsModalOpen:true, isCommentEditMode:true, commentInAddEditMode: comment})
     }
 
     updateCommentState = (event) => {
         const field = event.target.name;
-        const comment = this.state.commentInEditMode;
+        const comment = this.state.commentInAddEditMode;
         comment[field] = event.target.value;
-        this.setState({commentInEditMode: comment})
+        this.setState({commentInAddEditMode: comment})
     }
 
     render(){
-        const post = this.props.posts.find(post => post.id === this.props.match.params.post_id);
-        const {commentInEditMode, isCommentEditMode, category} = this.state;
+        let post = '',
+            comments = [];
 
-        let html;
+        if(this.props.posts.length > 0){
+            post = this.props.posts.find(post => post.id === this.props.match.params.post_id);
+            comments = post.comments &&  post.comments.filter(comment=> comment.deleted === false)
+        }
+
+
+        const {commentInAddEditMode, isCommentEditMode, category} = this.state;
+
+        let commentHtml;
 
         if(isCommentEditMode === true){
-            html =  (
+            commentHtml =  (
                 <div>
-                    <span className='comment-author'>{commentInEditMode.author}:</span>
-                    <input className='text lrg' name='body' type='text' value={commentInEditMode.body} onChange={this.updateCommentState} placeholder='body'></input>
-                    <button className='btn'> Update Comment </button>
+                    <div className="row">
+                        <div className="input-field col s12">
+                            <span className='comment-author'>{commentInAddEditMode.author}:</span>
+                            <input className='text lrg' name='body' type='text' value={commentInAddEditMode.body} onChange={this.updateCommentState} placeholder='body'></input>
+                            <button className='btn'> Update Comment </button>
+                        </div>
+                    </div>
                  </div>
             )
         }else{
-            html = (
+            commentHtml =  (
                 <div>
-                    <div>
-                        <label> Author: </label>
-                        <input className='text' name='author' type='text' value={commentInEditMode.author} onChange={this.updateCommentState} placeholder='author'></input>
+                <div className="row">
+                    <div className="input-field col s12">
+                        <input id="author" name='author' type="text" value={commentInAddEditMode.author} onChange={this.updateCommentState} />
+                        <label htmlFor='author'>Author: </label>
                     </div>
-                    <div>
-                        <label> Body: </label>
-                        <input className='text' name='body' type='text' value={commentInEditMode.body} onChange={this.updateCommentState} placeholder='body'></input>
+                </div>
+                <div className="row">
+                    <div className="input-field col s12">
+                        <input name='body' id="body" type="text" value={commentInAddEditMode.body} onChange={this.updateCommentState} />
+                        <label htmlFor='body'>Body: </label>
                     </div>
-                    <div>
+                </div>
+                <div className="row">
+                    <div className="input-field col s12">
                         <button className='btn'> Add Comment </button>
                     </div>
                 </div>
+                </div>
             )
         }
+
         return(
-            <div className='flex-container'>
-                <div className='details post'>
-                    <h1>Post Detail View</h1>
+            <div>
+                <h5> Post Detail View </h5>
+                {post && (
                     <div>
-                        <Link to={`/${category}/${post.id}/Edit`} className='edit-post'> Edit </Link>
-                        <a href='#' id={post.id} onClick={this.deletePost}> Delete </a>
-                    </div>
-                    <div>
-                        <label>Title:</label>
-                        <span>{post.title}</span>
-                    </div>
-                    <div>
-                        <label>Body:</label>
-                        <span>{post.body}</span>
-                    </div>
-                    <div>
-                        <label>Author:</label>
-                        <span>{post.author}</span>
-                    </div>
-                    <div>
-                        <label>Timestamp:</label>
-                        <span>{post.timestamp}</span>
-                    </div>
-                    <div>
-                        <label>VoteScore:</label>
-                        <span>{post.voteScore}</span>
-                    </div>
-                </div>
-                <div className='details comments'>
-                    <h1>Comments </h1>
-                    { (this.props.comments && this.props.comments.length > 0)&&(
-                        this.props.comments.map(comment=>(
-                            <div key={comment.id}>
-                                <label className='comment-author'>{comment.author}: </label>
-                                <span className='comment-body'>{comment.body}</span>
-                                <a href='#' className='comment-link' onClick={(event) => this.openCommentsModalInEditMode(event, comment)} >Edit</a>
-                                <a href='#' className='comment-link' id={comment.id}  onClick={(event) => this.deleteComment(event, comment)} >Delete</a>
-                            </div>
-                        )))
-                    }
+                    <div key={post.id} className="card light-blue darken-4">
+                        <div className="card-content white">
 
-                        <div>
-                            <button className='btn' onClick={this.openCommentsModalInAddMode}>Add Comment</button>
-
+                            <span className="card-title">   <span className='author'>{post.author} : </span> {post.title}<span className="comments-nbr">Comments:{post.comments && post.comments.length}</span></span>
+                            <VotingView isPosts={true} voteScore={post.voteScore} id={post.id}/>
+                        </div>
+                        <div className="card-action">
+                            <Link to={`/${category}/${post.id}/Edit`}>Edit</Link>
+                            <Link to='#' id={post.id} onClick={this.deletePost}> Delete </Link>
+                        </div>
+                    </div>
+                    <div className="row">
                             <Modal
-                                className='modal'
-                                overlayClassName='overlay'
+                                className='comment-modal'
+                                overlayClassName='comment-overlay'
                                 isOpen={this.state.commentsModalOpen}
                                 onRequestClose={this.closeCommentsModal}
                                 contentLabel='Modal'>
-                                <form onSubmit={this.addComment}>
-                                    <h3> Comments Form </h3>
-                                    <div>
-                                        <input type='hidden' name='parentId' value={post.id}/>
-                                        <input type='hidden' name='timestamp' value={commentInEditMode.timeStamp} />
-                                        <input type='hidden' name='id' value={commentInEditMode.id} />
-                                    </div>
-                                    {html}
-                                </form>
+                                <div className="row">
+                                    <form className="col s12" onSubmit={this.addComment}>
+                                        <div className="row">
+                                            <div className="input-field col s12">
+                                                <input type='hidden' name='parentId' value={post.id}/>
+                                                <input type='hidden' name='timestamp' value={commentInAddEditMode.timeStamp} />
+                                                <input type='hidden' name='id' value={commentInAddEditMode.id} />
+                                            </div>
+                                        </div>
+                                        {commentHtml}
+                                    </form>
+                                </div>
                             </Modal>
                         </div>
                     </div>
+                )}
+
+
+                <div className="row">
+
+                    {(comments && comments.length > 0)&&(
+                        <div>
+                        <div className=" card card-panel teal lighten-2"> Comments</div>
+                            {comments.map(comment=>(
+                                <div key={comment.id} className="card cyan darken-4">
+                                    <div className="card-content white">
+                                        <span className="card-title">   <span className='author'>{comment.author} : </span> {comment.body}</span>
+                                        <VotingView isPosts={false} voteScore={comment.voteScore} id={comment.id}/>
+                                    </div>
+                                    <div className="card-action">
+                                        <Link to='#' onClick={(event) => this.openCommentsModalInEditMode(event, comment)}>Edit</Link>
+                                        <Link to="#" id={comment.id}  onClick={(event) => this.deleteComment(event, comment)} >Delete</Link>
+                                    </div>
+                                </div>
+                            ))}
+
+                        </div>
+                    )}
+
+                    <button className='btn' onClick={this.openCommentsModalInAddMode}>Add Comment</button>
                 </div>
+
+            </div>
 
         )
     }
@@ -181,9 +201,6 @@ const mapStateToProps = ({appReducer}) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getAllComments: (id) => {
-            dispatch(getComments(id))
-        },
         deletePostDetail: (id) => {
             dispatch(deletePost(id))
             window.location = '/'
@@ -196,7 +213,6 @@ const mapDispatchToProps = (dispatch) => {
         },
         deleteCommentDetail:(id)=> {
             dispatch(deleteComment(id));
-            window.location = '/'
         }
     }
 }

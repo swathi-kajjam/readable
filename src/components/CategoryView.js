@@ -1,30 +1,20 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import PostsList from "./Common/PostsList";
+import {Link} from 'react-router-dom';
 
 class CategoryView extends Component {
-    constructor(props, context){
-        super(props, context);
-        this.state = {
-            category: this.props.match.params.category
-        }
-    }
-
-    filterPostsByCategory=(posts, category) => {
-        return posts.filter(post => post.category === category)
-    }
 
     render(){
-        const {category} = this.state;
-        const posts = this.filterPostsByCategory(this.props.posts, category)
+        const category = this.props.match.params.category;
+        const posts = this.props.posts.filter(post => post.category === category)
         return(
             <div>
-                Category View
                 <PostsList posts={posts} category={category}/>
+                <Link to={`${category}/post/new`}> <div className="btn"> Add Post </div></Link>
             </div>
         )
     }
-
 }
 
 const mapStateToProps = ({appReducer}) => {
@@ -33,10 +23,4 @@ const mapStateToProps = ({appReducer}) => {
    }
 }
 
-const mapDispatchToProps = (state) => {
-    return {
-
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(CategoryView)
+export default connect(mapStateToProps, null)(CategoryView)

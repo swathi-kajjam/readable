@@ -45,41 +45,49 @@ class CreateEditPostView extends Component {
             values.id = Math.random().toString(36).substr(-8);
             this.props.addPostDetails(values);
         }
-
-
     }
 
     render(){
         const {isEditMode, post} = this.state;
        return(
-        <div className='flex-container'>
-           <h1>Create / Edit Post</h1>
-            <form className='details post' onSubmit={this.addUpdatePost} >
+           <div className='row'>
+               <h1>Create / Edit Post</h1>
+               <form className='col s12 editform' onSubmit={this.addUpdatePost} >
+                   <div className="row">
+                       <div className="input-field col s12">
+                           <label htmlFor='title'>Title:</label>
+                           <input id='title' name='title' type='text' value={post.title} onChange={this.handleChange} className="validate"></input>
+                       </div>
+                   </div>
+                   <div className="row">
+                       <div className="input-field col s12">
+                           <label htmlFor='body'>Body:</label>
+                           <input id='body' name='body' type='text' value={post.body} onChange={this.handleChange} className="validate"></input>
+                       </div>
+                   </div>
+                   <div className="row">
+                       <div className="input-field col s12">
+                           <label htmlFor='body'>Author:</label>
+                           <input id='body' name='author' type='text' value={post.author} onChange={this.handleChange} className="validate"
+                           disabled={isEditMode? true: false}></input>
+                       </div>
+                   </div>
+                   <div className="row">
+                       <div className="input-field col s12">
+                           <input type='hidden' name='category' value={post.category}/>
+                           <input type='hidden' name='id' value={post.id}/>
+                       </div>
+                   </div>
+                   <div className="row">
+                       <div className="input-field col s12">
+                           <button className="btn" > {isEditMode? 'Update': 'Add'} </button>
+                       </div>
+                   </div>
+               </form>
+           </div>
 
-                <div>
-                    <label>Title:</label>
-                    <input className='text' name='title' type='text' value={post.title} onChange={this.handleChange}></input>
-                </div>
-                <div>
-                    <label>Body:</label>
-                    <input className='text' name='body' type='text' value={post.body} onChange={this.handleChange}></input>
-                </div>
-                <div>
-                    <label>Author:</label>
-                    <input className='text' name='author' type='text' value={post.author} onChange={this.handleChange}
-                    disabled={isEditMode === true}></input>
-                </div>
-                <div>
-                    <input type='hidden' name='category' value={post.category}/>
-                    <input type='hidden' name='id' value={post.id}/>
-                </div>
-                <div>
-                    <button className="btn" > {isEditMode? 'Update': 'Add'} </button>
-                </div>
 
-
-            </form>
-       </div>)
+       )
     }
 }
 
@@ -93,11 +101,11 @@ const mapDispatchToProps = (dispatch) => {
     return {
         updatePostDetails: (post) => {
             dispatch(updatePost(post));
-            window.location = `/`;
+            window.location = `/${post.category}/${post.id}`;
         },
         addPostDetails: (post) => {
             dispatch(addPost(post));
-            window.location = `/`;
+            window.location = `/${post.category}/${post.id}`;
         }
     }
 }

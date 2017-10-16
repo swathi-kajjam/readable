@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import CategoryList from './CategoryList';
-import PostsList from '../Common/PostsList';
+import PostsList from './Common/PostsList';
 
 class DefaultView extends Component{
     constructor(props, context){
@@ -10,8 +9,7 @@ class DefaultView extends Component{
 
     render(){
         return(
-            <div className="flex-container">
-                <CategoryList categories={this.props.categories} />
+            <div >
                 <PostsList posts={this.props.posts}/>
             </div>
         )
@@ -20,7 +18,6 @@ class DefaultView extends Component{
 
 const mapStateToProps = ({appReducer}) => {
     return {
-        categories: appReducer.categories,
         posts: appReducer.posts
     }
 }

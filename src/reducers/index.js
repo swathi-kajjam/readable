@@ -4,42 +4,94 @@ import {assign} from'lodash';
 
 const initialState = {
     categories: [],
-    posts:[],
-    comments:[]
+    posts:[]
 }
 
 function appReducer(state = initialState, action){
-
+    let post, posts;
     switch(action.type){
         case actionTypes.RECEIVE_CATEGORIES:
             return assign({}, state, {categories: action.categories});
         case actionTypes.RECEIVE_ALL_POSTS:
             return assign({}, state, {posts: action.posts})
         case actionTypes.RECEIVE_COMMENTS:
-            return assign({}, state, {comments: action.comments})
+            post = state.posts.find(post => post.id === action.postId)
+            post.comments = action.comments;
+            posts = state.posts.filter(post => post.id !== action.postId).concat(post);
+            return assign({}, state, {posts: posts})
         case actionTypes.UPDATE_POST:
             return assign({}, state, {
                 posts: state.posts.filter(post => post.id !== action.post.id).concat(action.post)
             });
+        case actionTypes.UPDATE_POST_VOTE:
+            posts = state.posts.map(post => {
+                if(post.id === action.post.id){
+                    post.voteScore = action.post.voteScore
+                }
+                return post
+            });
+            return assign({}, state, {
+                posts
+            })
+        case actionTypes.UPDATE_COMMENT_VOTE:
+            posts = state.posts.map(post => {
+                if(post.id === action.comment.parentId){
+                    post.comments.map(comment => {
+                        if(comment.id === action.comment.id){
+                            comment.voteScore = action.comment.voteScore
+                        }
+                        return comment;
+                    })
+                }
+                return post;
+            })
+
+            return assign({}, state, {
+                posts
+            })
         case actionTypes.DELETE_POST:
-            const post = state.posts.find(post => post.id === action.id);
+            post = state.posts.find(post => post.id === action.id);
             post.deleted = true
             return assign({}, state, {
                 posts: state.posts.filter(post => post.id !== action.id).concat(post)
             })
         case actionTypes.ADD_COMMENT:
+            posts = state.posts.map(post => {
+                if(post.id === action.comment.parentId) {
+                    post.comments.push(action.comment)
+                }
+                return post;
+            })
+
             return assign({}, state, {
-                comments: state.comments.concat(action.comment)
+                posts
             })
         case actionTypes.UPDATE_COMMENT:
+            posts = state.posts.map(post => {
+                if(post.id === action.comment.parentId) {
+                    post.comments.filter(comment => comment.id!== action.comment.id).concat(action.comment)
+                }
+                return post;
+            })
+
             return assign({}, state, {
-                comments: state.comments.filter(comment => comment.id !== action.comment.id).concat(action.comment)
+                posts
             })
         case actionTypes.DELETE_COMMENT:
-            const comment = state.comments.filter(comment => comment.id === action.id);
-            comment.deleted = true;
+            posts = state.posts.map(post => {
+                if(post.id === action.parentId){
+                    post.comments.map(comment => {
+                        if(comment.id === action.id){
+                            comment.deleted = true
+                        }
+                        return comment;
+                    })
+                }
+                return post;
+            })
+
             return assign({}, state, {
-                comments:  state.comments.filter(comment => comment.id !== action.id).concat(comment)
+                posts
             })
         case actionTypes.ADD_POST:
             assign({}, state, {
