@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {updatePost, addPost} from '../actions';
 import serializeForm from 'form-serialize';
+import formValidator from '../utils/formValidator';
 
 class CreateEditPostView extends Component {
     constructor(props, context){
@@ -24,6 +25,7 @@ class CreateEditPostView extends Component {
                     id: Math.random().toString(36).substr(-8)
                 },
                 isEditMode: false
+
             }
         }
     }
@@ -35,15 +37,17 @@ class CreateEditPostView extends Component {
     }
 
     addUpdatePost = (event) => {
-        event.preventDefault()
+        event.preventDefault();
         const values = serializeForm(event.target, {hash:true})
-        values.timestamp = new Date().getTime();
-        if(this.state.isEditMode){
-            this.props.updatePostDetails(values);
-        }
-        else{
-            values.id = Math.random().toString(36).substr(-8);
-            this.props.addPostDetails(values);
+        if(formValidator.isValidForm()) {
+            values.timestamp = new Date().getTime();
+            if (this.state.isEditMode) {
+                this.props.updatePostDetails(values);
+            }
+            else {
+                values.id = Math.random().toString(36).substr(-8);
+                this.props.addPostDetails(values);
+            }
         }
     }
 
@@ -56,20 +60,23 @@ class CreateEditPostView extends Component {
                    <div className="row">
                        <div className="input-field col s12">
                            <label htmlFor='title'>Title:</label>
-                           <input id='title' name='title' type='text' value={post.title} onChange={this.handleChange} className="validate"></input>
+                           <input id='title' name='title' type='text' value={post.title} onChange={this.handleChange}></input>
+                           <div className="error" id="titleError" />
                        </div>
                    </div>
                    <div className="row">
                        <div className="input-field col s12">
-                           <label htmlFor='body'>Body:</label>
-                           <input id='body' name='body' type='text' value={post.body} onChange={this.handleChange} className="validate"></input>
+                           <label  htmlFor='body'>Body:</label>
+                           <input id='body' name='body' type='text' value={post.body} onChange={this.handleChange} ></input>
+                           <div className="error" id="bodyError" />
                        </div>
                    </div>
                    <div className="row">
                        <div className="input-field col s12">
-                           <label htmlFor='body'>Author:</label>
-                           <input id='body' name='author' type='text' value={post.author} onChange={this.handleChange} className="validate"
+                           <label htmlFor='author'>Author:</label>
+                           <input id='author' name='author' type='text' value={post.author} onChange={this.handleChange}
                            disabled={isEditMode? true: false}></input>
+                           <div className="error" id="authorError" />
                        </div>
                    </div>
                    <div className="row">

@@ -5,6 +5,7 @@ import {Link} from 'react-router-dom';
 import Modal from 'react-modal';
 import serializeForm from 'form-serialize';
 import VotingView from './VotingView';
+import formValidator from '../utils/formValidator';
 
 import {deletePost, addComment, updateComment, deleteComment} from '../actions';
 
@@ -38,15 +39,16 @@ class PostDetailView extends Component{
 
     addComment = (e) => {
         e.preventDefault();
-        const values = serializeForm(e.target, {hash:true});
-        if(this.state.isCommentEditMode){
-            values.timeStamp = new Date().getTime();
-            this.props.updatePostComment(values)
-        }else{
-            console.log(values)
-            this.props.addNewComment(values)
+        if(formValidator.isValidForm()) {
+            const values = serializeForm(e.target, {hash: true});
+            if (this.state.isCommentEditMode) {
+                values.timeStamp = new Date().getTime();
+                this.props.updatePostComment(values)
+            } else {
+                this.props.addNewComment(values)
+            }
+            this.closeCommentsModal();
         }
-        this.closeCommentsModal();
     }
 
     deletePost = (event) => {
@@ -85,43 +87,31 @@ class PostDetailView extends Component{
 
 
         const {commentInAddEditMode, isCommentEditMode, category} = this.state;
-        let commentHtml;
 
-        if(isCommentEditMode === true){
-            commentHtml =  (
-                <div>
-                    <div className="row">
-                        <div className="input-field col s12">
-                            <span className='comment-author'>{commentInAddEditMode.author}:</span>
-                            <input className='text lrg' name='body' type='text' value={commentInAddEditMode.body} onChange={this.updateCommentState} placeholder='body'></input>
-                            <button className='btn'> Update Comment </button>
-                        </div>
-                    </div>
-                 </div>
-            )
-        }else{
-            commentHtml =  (
-                <div>
-                <div className="row">
-                    <div className="input-field col s12">
-                        <input id="author" name='author' type="text" value={commentInAddEditMode.author} onChange={this.updateCommentState} />
-                        <label htmlFor='author'>Author: </label>
-                    </div>
+        let commentHtml =  (
+            <div>
+            <div className="row">
+                <div className="input-field col s12">
+                    <input id="author" name='author' type="text" value={commentInAddEditMode.author} onChange={this.updateCommentState}  disabled={isCommentEditMode? true: false}/>
+                    <label htmlFor='author'>Author: </label>
+                    <div className="error" id="authorError" />
                 </div>
-                <div className="row">
-                    <div className="input-field col s12">
-                        <input name='body' id="body" type="text" value={commentInAddEditMode.body} onChange={this.updateCommentState} />
-                        <label htmlFor='body'>Body: </label>
-                    </div>
+            </div>
+            <div className="row">
+                <div className="input-field col s12">
+                    <input name='body' id="body" type="text" value={commentInAddEditMode.body} onChange={this.updateCommentState} />
+                    <label htmlFor='body'>Body: </label>
+                    <div className="error" id="bodyError" />
                 </div>
-                <div className="row">
-                    <div className="input-field col s12">
-                        <button className='btn'> Add Comment </button>
-                    </div>
+            </div>
+            <div className="row">
+                <div className="input-field col s12">
+                    <button className='btn'> {isCommentEditMode? 'Update': 'Add'} Comment </button>
                 </div>
-                </div>
-            )
-        }
+            </div>
+            </div>
+        )
+
 
         return(
             <div>
