@@ -16,12 +16,21 @@ class PostsList extends Component{
         this.setState({value:e.target.getAttribute('value')})
     }
 
+    getCommentsCount = (post) => {
+        let totalComments = 0;
+        let comments = post.comments || [];
+        if(comments.length >0){
+            totalComments = comments.filter(comment => comment.deleted === false).length
+        }
+        return totalComments;
+    }
+
     render() {
         const posts = orderBy(this.props.posts.filter(post=> post.deleted === false), this.state.value, ['desc'])
         return (
            <div>
 
-               {(posts.length > 0) && (
+               {(posts.length > 1) && (
                    <div>
                        <a className="waves-effect waves-light btn" value='timestamp' onClick={this.handleChange}>Date</a>
                        <a className="waves-effect waves-light btn" value='voteScore' onClick={this.handleChange}>Score</a>
@@ -32,7 +41,8 @@ class PostsList extends Component{
 
                     <div key={post.id} className="card blue-grey darken-1">
                         <div className="card-content white">
-                            <span className="card-title">   <span className='author'>{post.author} : </span> {post.title} <span className="comments-nbr">Comments:{post.comments && post.comments.length}</span></span>
+                            <span className="card-title">   <span className='author'>{post.author} : </span> {post.title}
+                            <span className="comments-nbr">Comments:{this.getCommentsCount(post)}</span></span>
                              <VotingView isPosts={true} voteScore={post.voteScore} id={post.id}/>
 
                         </div>

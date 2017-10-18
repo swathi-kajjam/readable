@@ -16,7 +16,12 @@ class PostDetailView extends Component{
         this.state = {
             commentsModalOpen: false,
             isCommentEditMode: false,
-            commentInAddEditMode: {},
+            commentInAddEditMode: {
+                author:'',
+                body:'',
+                parentId: this.props.match.params.post_id,
+                id:Math.random().toString(36).substr(-8)
+            },
             category: this.props.match.params.category
         }
     }
@@ -27,7 +32,6 @@ class PostDetailView extends Component{
             commentInAddEditMode: {
                 author:'',
                 body:'',
-                timeStamp: new Date().getTime(),
                 id: Math.random().toString(36).substr(-8)
             }
         })
@@ -35,6 +39,14 @@ class PostDetailView extends Component{
 
     closeCommentsModal = () => {
         this.setState({commentsModalOpen: false})
+    }
+
+    setDefaultCommentState = () => {
+        this.setState({isCommentEditMode:false,commentInAddEditMode:{
+            author:'',
+            body:'',
+            id:Math.random().toString(36).substr(-8)}
+        })
     }
 
     addComment = (e) => {
@@ -48,6 +60,8 @@ class PostDetailView extends Component{
                 this.props.addNewComment(values)
             }
             this.closeCommentsModal();
+            //set the state back after adding/updating comment
+            this.setDefaultCommentState()
         }
     }
 
@@ -57,6 +71,8 @@ class PostDetailView extends Component{
     }
 
     deleteComment = (event) => {
+       //set the state back after deleting comment
+       this.setDefaultCommentState()
        this.props.deleteCommentDetail(event.target.id);
        event.preventDefault();
     }
@@ -142,7 +158,6 @@ class PostDetailView extends Component{
                                             <div className="row">
                                                 <div className="input-field col s12">
                                                     <input type='hidden' name='parentId' value={post.id}/>
-                                                    <input type='hidden' name='timestamp' value={commentInAddEditMode.timeStamp} />
                                                     <input type='hidden' name='id' value={commentInAddEditMode.id} />
                                                 </div>
                                             </div>
@@ -163,7 +178,7 @@ class PostDetailView extends Component{
                             {comments.map(comment=>(
                                 <div key={comment.id} className="card cyan darken-4">
                                     <div className="card-content white">
-                                        <span className="card-title">   <span className='author'>{comment.author} : </span> {comment.body}</span>
+                                        <span className="card-title">   <span className='author'>{comment.author} : </span>{comment.body}</span>
                                         <VotingView isPosts={false} voteScore={comment.voteScore} id={comment.id}/>
                                     </div>
                                     <div className="card-action">
