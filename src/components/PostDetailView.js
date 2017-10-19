@@ -172,7 +172,7 @@ class PostDetailView extends Component{
                     <div>
                         <div key={post.id} className="card light-blue darken-4">
                             <div className="card-content white">
-                                <span className="card-title">   <span className='author'>{post.author} : </span> {post.title}<span className="comments-nbr">Comments:{post.comments && post.comments.length}</span></span>
+                                <span className="card-title">   <span className='author'>{post.author} : </span> {post.title}<span className="comments-nbr">Comments:{comments && comments.length}</span></span>
                                 <VotingView isPosts={true} voteScore={post.voteScore} id={post.id}/>
                             </div>
                             <div className="card-action">

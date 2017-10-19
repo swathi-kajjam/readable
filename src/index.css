@@ -5,46 +5,6 @@ body {
   background-color:#e9ebee;
 }
 
-.flex-container{
-  display: -webkit-flex;
-  display: flex;
-  -webkit-flex-direction: column;
-  flex-direction: column;
-  width: 97%;
-}
-
-.flex-item{
-  width: 100%;
-  margin: 20px;
-  border: 2px solid white;
-  border-radius: 4px;
-  padding-bottom:20px;
-}
-
-.categories-list {
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
-}
-
-.categories-list-item{
-    padding: 20px;
-    text-align: left;
-}
-
-.posts-list{
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
-}
-
-.posts-list-item {
-    padding: 10px;
-    text-align: left;
-}
-
 label{
    margin-bottom: 8px;
 }
@@ -60,47 +20,8 @@ label{
 .comments{
     background-color: #f6f7f9;
 }
-
-.edit-post{
-    margin-right: 8px;
-}
-
-.details{
-    width: 60% !important;
-    margin-left: 20%;
-    padding: 25px 0px;
-}
-
-.details > div {
-    width: 70%;
-    margin-left:35%;
-    text-align: left;
-    margin-bottom: 12px;
-}
-
-.text{
-    background-color:transparent !important;
-    font-family: 'Helvetica Neue", Helvetica, Arial, sans-serif';
-    font-size:12px;
-    padding:5px 7px;
-    border-radius: 25px;
-    width:260px;
-    border:2px solid #a1a1a1;
-}
-
-.lrg{
-    width:330px;
-    height:25px;
-    display: block;
-}
-
-.comment-link{
-    margin-left: 10px;
-}
-
 .btn{
   margin: 10px 10px;
-
 }
 
 .comment-overlay {
@@ -129,20 +50,6 @@ label{
     min-width: 500px;
 }
 
-
-
-.comment-body{
-    width:60%;
-    display:inline-block;
-}
-
-.hide{
-    display: none;
-}
-.show{
-    display: block;
-}
-
 .card{
     width:60%;
     height:100px;
@@ -164,10 +71,6 @@ label{
     color: #365899;
 }
 
-.dropdown-button{
-    margin-top:40px;
-}
-
 .comments-nbr{
     font-size: small;
     position:absolute;
@@ -187,4 +90,6 @@ label{
 .input-field label {
     transition:inherit;
     transform:none;
+    margin-bottom:14px;
+    padding-bottom:6px;
 }
