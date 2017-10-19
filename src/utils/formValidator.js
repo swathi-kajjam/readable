@@ -4,6 +4,11 @@
  */
 class formValidator{
 
+    /**
+     * @description - Check whether field is valid or not
+     * @param field - field to be validated
+     * @return - true or false indicating whether field is valid
+     */
     static isValidField(field) {
         const error = document.getElementById(`${field.name}Error`);
         if(error){
@@ -17,6 +22,10 @@ class formValidator{
         return true
     }
 
+    /**
+     * @description - Check whether all input fields in form are valid or not
+     * @return - true or false indicating whether form is valid
+     */
     static isValidForm(){
         let isFormValid = true;
         const validateFields = document.querySelectorAll('input[type=text]');

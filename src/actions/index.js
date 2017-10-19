@@ -19,6 +19,11 @@ export const receiveAllComments = (comments, postId) => ({
 })
 
 //Post Actions
+export const addPostInStore = post => ({
+    type: ActionTypes.ADD_POST,
+    post
+})
+
 export const updatePostInStore = post => ({
     type: ActionTypes.UPDATE_POST,
     post
@@ -34,17 +39,7 @@ export const updatePostVoteInStore = post => ({
     post
 })
 
-export const addPostInStore = post => ({
-    type: ActionTypes.ADD_POST,
-    post
-})
-
 //Comment Actions
-export const updateCommenVoteInStore = comment => ({
-    type: ActionTypes.UPDATE_COMMENT_VOTE,
-    comment
-})
-
 export const addCommentInStore = comment => ({
     type: ActionTypes.ADD_COMMENT,
     comment
@@ -59,6 +54,11 @@ export const deleteCommentInStore = (id, parentId) => ({
     type: ActionTypes.DELETE_COMMENT,
     id,
     parentId
+})
+
+export const updateCommenVoteInStore = comment => ({
+    type: ActionTypes.UPDATE_COMMENT_VOTE,
+    comment
 })
 
 //Thunk methods
