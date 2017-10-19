@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 import PostsList from "./Common/PostsList";
 import {Link} from 'react-router-dom';
 
+/**
+ * CategoryView - Display posts based on the selected category
+ */
 class CategoryView extends Component {
 
     render(){

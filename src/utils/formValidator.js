@@ -1,4 +1,7 @@
 
+/**
+ * formValidator - Validates the form fields
+ */
 class formValidator{
 
     static isValidField(field) {

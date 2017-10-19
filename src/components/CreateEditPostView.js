@@ -4,15 +4,18 @@ import {updatePost, addPost} from '../actions';
 import serializeForm from 'form-serialize';
 import formValidator from '../utils/formValidator';
 
+/**
+ * CreateEditPostView - Allows users to add / update post
+ */
 class CreateEditPostView extends Component {
     constructor(props, context){
         super(props);
         const postId = this.props.match.params.post_id;
+
         if(postId){
-            const post = this.props.posts.find(post => post.id === postId);
             this.state = {
-                post,
                 isEditMode: true,
+                isFormEditing: false
             }
         }
         else{
@@ -24,18 +27,39 @@ class CreateEditPostView extends Component {
                     category: this.props.match.params.category,
                     id: Math.random().toString(36).substr(-8)
                 },
-                isEditMode: false
+                isEditMode: false,
+                isFormEditing: false
 
             }
         }
+
     }
 
-    handleChange = (event) => {
-        const post = this.state.post;
+    /**
+     * @description - handle change in the input field value
+     * @param event - text change event
+     * @param post - current post
+     */
+    handleChange = (event, post) => {
         post[event.target.name] = event.target.value;
-        this.setState({post})
+        this.setState({post, isFormEditing:true})
     }
 
+    /**
+     * @description - get the post associated with post id in Edit Mode
+     * @returns post associated with post id in Edit Mode
+     */
+    filterPost(){
+        if(this.state.isEditMode && ! this.state.isFormEditing && this.props.posts.length>0){
+            return this.props.posts.find(post => post.id === this.props.match.params.post_id)
+        }
+        return this.state.post;
+    }
+
+    /**
+     * @description - Allows to add / Update the post details
+     * @param event - click event
+     */
     addUpdatePost = (event) => {
         event.preventDefault();
         const values = serializeForm(event.target, {hash:true})
@@ -51,48 +75,57 @@ class CreateEditPostView extends Component {
         }
     }
 
+
     render(){
-       const {isEditMode, post} = this.state;
-       return(
-           <div className='row'>
-               <h1>Create / Edit Post</h1>
-               <form className='col s12 editform' onSubmit={this.addUpdatePost} >
-                   <div className="row">
-                       <div className="input-field col s12">
-                           <label htmlFor='title'>Title:</label>
-                           <input id='title' name='title' type='text' value={post.title} onChange={this.handleChange}></input>
-                           <div className="error" id="titleError" />
+      let {isEditMode} = this.state;
+      const post = this.filterPost()
+
+       if(post) {
+           return (
+               <div className='row'>
+                   <h1>Create / Edit Post</h1>
+                   <form className='col s12 editform' onSubmit={this.addUpdatePost}>
+                       <div className="row">
+                           <div className="input-field col s12">
+                               <label htmlFor='title'>Title:</label>
+                               <input id='title' name='title' type='text' value={post.title}
+                                      onChange={(event) => this.handleChange(event, post)}></input>
+                               <div className="error" id="titleError"/>
+                           </div>
                        </div>
-                   </div>
-                   <div className="row">
-                       <div className="input-field col s12">
-                           <label  htmlFor='body'>Body:</label>
-                           <input id='body' name='body' type='text' value={post.body} onChange={this.handleChange} ></input>
-                           <div className="error" id="bodyError" />
+                       <div className="row">
+                           <div className="input-field col s12">
+                               <label htmlFor='body'>Body:</label>
+                               <input id='body' name='body' type='text' value={post.body}
+                                      onChange={(event) => this.handleChange(event, post)}></input>
+                               <div className="error" id="bodyError"/>
+                           </div>
                        </div>
-                   </div>
-                   <div className="row">
-                       <div className="input-field col s12">
-                           <label htmlFor='author'>Author:</label>
-                           <input id='author' name='author' type='text' value={post.author} onChange={this.handleChange}
-                           disabled={isEditMode? true: false}></input>
-                           <div className="error" id="authorError" />
+                       <div className="row">
+                           <div className="input-field col s12">
+                               <label htmlFor='author'>Author:</label>
+                               <input id='author' name='author' type='text' value={post.author}
+                                      onChange={(event) => this.handleChange(event, post)}
+                                      disabled={isEditMode ? true : false}></input>
+                               <div className="error" id="authorError"/>
+                           </div>
                        </div>
-                   </div>
-                   <div className="row">
-                       <div className="input-field col s12">
-                           <input type='hidden' name='category' value={post.category}/>
-                           <input type='hidden' name='id' value={post.id}/>
+                       <div className="row">
+                           <div className="input-field col s12">
+                               <input type='hidden' name='category' value={post.category}/>
+                               <input type='hidden' name='id' value={post.id}/>
+                           </div>
                        </div>
-                   </div>
-                   <div className="row">
-                       <div className="input-field col s12">
-                           <button className="btn" > {isEditMode? 'Update': 'Add'} </button>
+                       <div className="row">
+                           <div className="input-field col s12">
+                               <button className="btn"> {isEditMode ? 'Update' : 'Add'} </button>
+                           </div>
                        </div>
-                   </div>
-               </form>
-           </div>
-       )
+                   </form>
+               </div>
+           )
+       }
+       return(null)
     }
 }
 

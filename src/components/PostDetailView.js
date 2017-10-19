@@ -6,9 +6,11 @@ import Modal from 'react-modal';
 import serializeForm from 'form-serialize';
 import VotingView from './VotingView';
 import formValidator from '../utils/formValidator';
-
 import {deletePost, addComment, updateComment, deleteComment} from '../actions';
 
+/**
+ * PostDetailView - Displays post detail view along with its comments
+ */
 class PostDetailView extends Component{
     constructor(props, context){
         super(props);
@@ -26,6 +28,9 @@ class PostDetailView extends Component{
         }
     }
 
+    /**
+     * @description - Opens the comments Model and sets the initial state of the comment
+     */
     openCommentsModalInAddMode = () => {
         this.setState({
             commentsModalOpen: true,
@@ -37,10 +42,16 @@ class PostDetailView extends Component{
         })
     }
 
+    /**
+     * @description - Closes the comments Model
+     */
     closeCommentsModal = () => {
         this.setState({commentsModalOpen: false})
     }
 
+    /**
+     * @description - Set the default Comment State
+     */
     setDefaultCommentState = () => {
         this.setState({isCommentEditMode:false,commentInAddEditMode:{
             author:'',
@@ -49,6 +60,10 @@ class PostDetailView extends Component{
         })
     }
 
+    /**
+     * @description - Allows to add / Update the comment details
+     * @param e - click event
+     */
     addComment = (e) => {
         e.preventDefault();
         if(formValidator.isValidForm()) {
@@ -65,22 +80,44 @@ class PostDetailView extends Component{
         }
     }
 
-    deletePost = (event) => {
-        this.props.deletePostDetail(event.target.id);
+    /**
+     * @description - Allows to delete the post and all associated comments
+     * @param event - click event
+     * @param post - post to be deleted
+     */
+    deletePost = (event, post) => {
+        this.props.deletePostDetail(post.id);
+        post.comments.map(comment => {
+            return this.deleteComment(null,comment.id)
+        })
         event.preventDefault();
     }
 
-    deleteComment = (event) => {
+    /**
+     * @description - Allows to delete the comment
+     * @param event - click event
+     * @param id - id of the comment to be deleted
+     */
+    deleteComment = (event, id) => {
        //set the state back after deleting comment
        this.setDefaultCommentState()
-       this.props.deleteCommentDetail(event.target.id);
+       this.props.deleteCommentDetail(id);
        event.preventDefault();
     }
 
+    /**
+     * @description - Open Comment Modal in Edit Mode
+     * @param event - click event
+     * @param comment - comment to be edited
+     */
     openCommentsModalInEditMode = (event, comment) => {
         this.setState({commentsModalOpen:true, isCommentEditMode:true, commentInAddEditMode: comment})
     }
 
+    /**
+     * @description - handle change in the comment field
+     * @param event - change event
+     */
     updateCommentState = (event) => {
         const field = event.target.name;
         const comment = this.state.commentInAddEditMode;
@@ -128,7 +165,6 @@ class PostDetailView extends Component{
             </div>
         )
 
-
         return(
             <div>
                 <h5> Post Detail View </h5>
@@ -136,13 +172,12 @@ class PostDetailView extends Component{
                     <div>
                         <div key={post.id} className="card light-blue darken-4">
                             <div className="card-content white">
-
                                 <span className="card-title">   <span className='author'>{post.author} : </span> {post.title}<span className="comments-nbr">Comments:{post.comments && post.comments.length}</span></span>
                                 <VotingView isPosts={true} voteScore={post.voteScore} id={post.id}/>
                             </div>
                             <div className="card-action">
                                 <Link to={`/${category}/${post.id}/Edit`}>Edit</Link>
-                                <Link to='#' id={post.id} onClick={this.deletePost}> Delete </Link>
+                                <Link to='#' onClick={(event) => this.deletePost(event, post)}> Delete </Link>
                             </div>
                         </div>
 
@@ -171,7 +206,6 @@ class PostDetailView extends Component{
 
 
                 <div className="row">
-
                     {(comments && comments.length > 0)&&(
                         <div>
                              <div className=" card card-panel teal lighten-2"> Comments</div>
@@ -183,7 +217,7 @@ class PostDetailView extends Component{
                                     </div>
                                     <div className="card-action">
                                         <Link to='#' onClick={(event) => this.openCommentsModalInEditMode(event, comment)}>Edit</Link>
-                                        <Link to="#" id={comment.id}  onClick={(event) => this.deleteComment(event, comment)} >Delete</Link>
+                                        <Link to="#"  onClick={(event) => this.deleteComment(event, comment.id)} >Delete</Link>
                                     </div>
                                 </div>
                             ))}

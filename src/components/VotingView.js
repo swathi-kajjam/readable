@@ -2,9 +2,15 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {updatePostVoting, updateCommentVoting} from "../actions";
 
-
+/**
+ * Voting - Allows users to upvote or downvote a post / comment
+ */
 class Voting extends Component{
 
+    /**
+     * @description - update voting for post / comment
+     * @param event - click event
+     */
     updateVoting = (event) => {
         event.preventDefault();
         if(this.props.isPosts){

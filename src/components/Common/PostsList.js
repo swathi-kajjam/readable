@@ -3,6 +3,9 @@ import {Link} from 'react-router-dom';
 import {orderBy} from 'lodash';
 import VotingView from '../VotingView';
 
+/**
+ * PostsList - Lists all the posts
+ */
 class PostsList extends Component{
     constructor(props, context){
         super(props);
@@ -12,10 +15,19 @@ class PostsList extends Component{
         }
     }
 
-    handleChange = (e) =>{
+    /**
+     * @description - handle sortBy Date / Score
+     * @param e - click event
+     */
+    sortBy = (e) =>{
         this.setState({value:e.target.getAttribute('value')})
     }
 
+    /**
+     * @description - handle sortBy Date / Score
+     * @param post - comments existing for a post
+     * @returns total comments associated with a post
+     */
     getCommentsCount = (post) => {
         let totalComments = 0;
         let comments = post.comments || [];
@@ -32,8 +44,8 @@ class PostsList extends Component{
 
                {(posts.length > 1) && (
                    <div>
-                       <a className="waves-effect waves-light btn" value='timestamp' onClick={this.handleChange}>Date</a>
-                       <a className="waves-effect waves-light btn" value='voteScore' onClick={this.handleChange}>Score</a>
+                       <a className="waves-effect waves-light btn" value='timestamp' onClick={this.sortBy}>Date</a>
+                       <a className="waves-effect waves-light btn" value='voteScore' onClick={this.sortBy}>Score</a>
                    </div>
                )}
 

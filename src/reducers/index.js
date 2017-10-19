@@ -6,7 +6,9 @@ const initialState = {
     posts:[]
 }
 
-
+/**
+ * appReducer - Reducer for the app
+ */
 function appReducer(state = initialState, action){
     switch(action.type){
         case actionTypes.RECEIVE_CATEGORIES:

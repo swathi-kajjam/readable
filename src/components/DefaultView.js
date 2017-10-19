@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import PostsList from './Common/PostsList';
 
+/**
+ * DefaultView - Displays all posts related to all categories
+ */
 class DefaultView extends Component{
     constructor(props, context){
         super(props)
