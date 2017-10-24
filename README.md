@@ -1,30 +1,32 @@
-## Project Details
-Application: Readable Application using React and Redux
-Description: Readable is a content and comment web application.Users will be able to post content to predefined categories, comment on their posts and other user's posts, and vote on posts and comments. Users will also be able to edit and delete posts and comments.
-Program: Udacity React Nanodegree Program
-Developed By: Swathi Kajjam
+# readable
+
+ Readable is a content and comment web application developed using React and Redux.This application allows users to post content to predefined categories, comment on their posts
+ and other user's posts, and vote on posts and comments. Users will also be able to edit and delete posts and comments.
+
+ This repository includes the code for the front end portion.
+
+### Pages:
+    DefaultView - Allows users to see all posts independent of category and to add post in any category.
+    CategoryView - Allows users to view posts based on category. It also allows users to add new post.
+    PostDetailView - Allows users to view post in detail along with its associated comments.
+    CreateEditPostView - Allows users to create or update Post details
+
+# Quickstart
+
+### Install
+
+    $ npm install
+    $ npm start
 
 
-## Pages:
-DefaultView - Allows users to see all post independent of category.
-CategoryView - Allows users to view posts based on category. It also allows users to add new post in selected category.
-PostDetailView - Allows users to view post in detail along with its associated comments.
-CreateEditPostView - Allows users to create or update Post details
+#### API
 
-### Installation Instruction:
-## FrontEND
-* `npm install`
-* `node server`
+    $ git clone https://github.com/udacity/reactnd-project-readable-starter.git
+    $ cd api-server
+    $ npm install
+    $ npm start
 
-
-#API Server
-* `git clone `
-* `cd api-server`
-* `npm install`
-* `node server`
-
-
-#API Endpoints
+#API provides below Endpoints
 
 | Endpoints       | Usage          | Params         |
 |-----------------|----------------|----------------|
@@ -42,4 +44,3 @@ CreateEditPostView - Allows users to create or update Post details
 | `POST /comments/:id` | Used for voting on a comment. | |
 | `PUT /comments/:id` | Edit the details of an existing comment. | **timestamp** - timestamp. Get this however you want. <br> **body** - [String] |
 | `DELETE /comments/:id` | Sets a comment's deleted flag to `true`. | &nbsp; |
-
