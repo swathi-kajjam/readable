@@ -28,7 +28,7 @@ class formValidator{
      */
     static isValidForm(){
         let isFormValid = true;
-        const validateFields = document.querySelectorAll('input[type=text]');
+        const validateFields = document.querySelectorAll('input[type=text], select');
         validateFields.forEach(field=> {
             const isValidField = this.isValidField(field);
             if(!isValidField){

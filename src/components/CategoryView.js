@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import PostsList from "./Common/PostsList";
-import {Link} from 'react-router-dom';
 
 /**
  * CategoryView - Display posts based on the selected category
@@ -14,7 +13,6 @@ class CategoryView extends Component {
         return(
             <div>
                 <PostsList posts={posts} category={category}/>
-                <Link to={`${category}/post/new`}> <div className="btn"> Add Post </div></Link>
             </div>
         )
     }

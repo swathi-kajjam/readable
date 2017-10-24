@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import './App.css';
 import CategoryList from './components/Common/CategoryList';
 import DefaultView from './components/DefaultView';
@@ -12,12 +12,14 @@ class App extends Component {
     return (
         <div className="App">
             <CategoryList />
-            <Route exact path="/:category/:post_id" component={PostDetailView} />
+            <Switch>
+            <Route exact path="/post/new" component={CreateEditPostView} />
             <Route exact path="/:category/post/new" component={CreateEditPostView} />
             <Route exact path="/:category/:post_id/Edit" component={CreateEditPostView} />
-
+            <Route exact path="/:category/:post_id" component={PostDetailView} />
             <Route exact path='/' component={DefaultView}/>
             <Route exact path='/:category' component={CategoryView}/>
+            </Switch>
         </div>
     );
   }

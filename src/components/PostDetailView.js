@@ -23,8 +23,7 @@ class PostDetailView extends Component{
                 body:'',
                 parentId: this.props.match.params.post_id,
                 id:Math.random().toString(36).substr(-8)
-            },
-            category: this.props.match.params.category
+            }
         }
     }
 
@@ -139,7 +138,7 @@ class PostDetailView extends Component{
         }
 
 
-        const {commentInAddEditMode, isCommentEditMode, category} = this.state;
+        const {commentInAddEditMode, isCommentEditMode} = this.state;
 
         let commentHtml =  (
             <div>
@@ -176,7 +175,7 @@ class PostDetailView extends Component{
                                 <VotingView isPosts={true} voteScore={post.voteScore} id={post.id}/>
                             </div>
                             <div className="card-action">
-                                <Link to={`/${category}/${post.id}/Edit`}>Edit</Link>
+                                <Link to={`/${post.category}/${post.id}/Edit`}>Edit</Link>
                                 <Link to='#' onClick={(event) => this.deletePost(event, post)}> Delete </Link>
                             </div>
                         </div>

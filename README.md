@@ -1,7 +1,6 @@
 ## Project Details
-Application: Readable Application in React
-Description: Readable is a content and comment application, which allows users to view all posts or to view posts based on a category.It also
-allows users to Add/Update/Delete/Upvote/DownVote posts and Add/Update/Delete/Upvote/DownVote  comments for a post
+Application: Readable Application using React and Redux
+Description: Readable is a content and comment web application.Users will be able to post content to predefined categories, comment on their posts and other user's posts, and vote on posts and comments. Users will also be able to edit and delete posts and comments.
 Program: Udacity React Nanodegree Program
 Developed By: Swathi Kajjam
 
@@ -12,15 +11,20 @@ CategoryView - Allows users to view posts based on category. It also allows user
 PostDetailView - Allows users to view post in detail along with its associated comments.
 CreateEditPostView - Allows users to create or update Post details
 
-## Installation Instruction:
-#Note: If service is not running on port 3001, please run below command with the port on which service is running.otherwise please skip command 1
-command 1)export REACT_APP_BACKEND='http://localhost:3001'
-command 2)npm install
-command 3)npm start
+### Installation Instruction:
+## FrontEND
+* `npm install`
+* `node server`
 
 
-## Important
-The backend API provides the following endpoints
+#API Server
+* `git clone `
+* `cd api-server`
+* `npm install`
+* `node server`
+
+
+#API Endpoints
 
 | Endpoints       | Usage          | Params         |
 |-----------------|----------------|----------------|

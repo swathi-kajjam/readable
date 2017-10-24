@@ -24,7 +24,7 @@ class CreateEditPostView extends Component {
                     title:'',
                     body:'',
                     author:'',
-                    category: this.props.match.params.category,
+                    category: this.props.match.params.category || '',
                     id: Math.random().toString(36).substr(-8)
                 },
                 isEditMode: false,
@@ -63,6 +63,7 @@ class CreateEditPostView extends Component {
     addUpdatePost = (event) => {
         event.preventDefault();
         const values = serializeForm(event.target, {hash:true})
+
         if(formValidator.isValidForm()) {
             values.timestamp = new Date().getTime();
             if (this.state.isEditMode) {
@@ -85,6 +86,15 @@ class CreateEditPostView extends Component {
                <div className='row'>
                    <h1>Create / Edit Post</h1>
                    <form className='col s12 editform' onSubmit={this.addUpdatePost}>
+                       <div className="row">
+                           <select id='category' name='category' defaultValue={post.category}>
+                               <option value = "">Select Category</option>
+                               {this.props.categories.map(category => (
+                                   <option key={category.name} value={category.name} >{category.name}</option>
+                               ))}
+                           </select>
+                           <div className="error" id="categoryError"/>
+                       </div>
                        <div className="row">
                            <div className="input-field col s12">
                                <label htmlFor='title'>Title:</label>
@@ -112,7 +122,6 @@ class CreateEditPostView extends Component {
                        </div>
                        <div className="row">
                            <div className="input-field col s12">
-                               <input type='hidden' name='category' value={post.category}/>
                                <input type='hidden' name='id' value={post.id}/>
                            </div>
                        </div>
@@ -131,7 +140,8 @@ class CreateEditPostView extends Component {
 
 const mapStateToProps = ({appReducer}) => {
     return {
-        posts: appReducer.posts
+        posts: appReducer.posts,
+        categories: appReducer.categories
     }
 }
 
