@@ -18,6 +18,11 @@ export const receiveAllComments = (comments, postId) => ({
     postId
 })
 
+export const setActiveCategory = (category) => ({
+    type: ActionTypes.SET_ACTIVE_CATEGORY,
+    category
+})
+
 //Post Actions
 export const addPostInStore = post => ({
     type: ActionTypes.ADD_POST,

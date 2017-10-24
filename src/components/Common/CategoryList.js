@@ -1,19 +1,12 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import {connect} from 'react-redux';
+import {setActiveCategory} from "../../actions/index";
 
 /**
  * CategoryList - Lists all the categories
  */
 class CategoryList extends Component{
-    constructor(props, context){
-        super(props, context);
-        console.log(this.props)
-        this.state = {
-            activeLink : "all"
-        }
-    }
-
     /**
      * @description - sets the active catgory
      * @param event - click event
@@ -21,20 +14,20 @@ class CategoryList extends Component{
      */
     handleClick=(event)=>{
        const catg = event.currentTarget.getAttribute('catg-name');
-       this.setState({activeLink:catg})
+       this.props.changeCategory(catg);
     }
 
     render(){
-        const {activeLink} = this.state;
+        const activeCategory = this.props.activeCategory;
 
         return (
             <div>
                 <nav>
                     <div className="nav-wrapper">
                         <ul>
-                            <li key='all' catg-name='all' onClick={this.handleClick} className={activeLink==='all'?'active':''}><Link to='/'> All </Link> </li>
+                            <li key='all' catg-name='all' onClick={this.handleClick} className={activeCategory==='all'?'active':''}><Link to='/'> All </Link> </li>
                             {this.props.categories.map(catg => (
-                                <li key={catg.name} catg-name={catg.name} onClick={this.handleClick} className={activeLink=== catg.name?'active':''}>
+                                <li key={catg.name} catg-name={catg.name} onClick={this.handleClick} className={activeCategory=== catg.name?'active':''}>
                                     <Link to={`/${catg.name}`}> {catg.name}</Link>
                                 </li>
                             ))}
@@ -48,8 +41,17 @@ class CategoryList extends Component{
 
 const mapStateToProps = ({appReducer}) => {
     return {
+        activeCategory: appReducer.activeCategory,
         categories: appReducer.categories
     }
 }
 
-export default connect(mapStateToProps, null)(CategoryList);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        changeCategory: (category) => {
+            dispatch(setActiveCategory(category))
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CategoryList);

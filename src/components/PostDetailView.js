@@ -6,7 +6,7 @@ import Modal from 'react-modal';
 import serializeForm from 'form-serialize';
 import VotingView from './VotingView';
 import formValidator from '../utils/formValidator';
-import {deletePost, addComment, updateComment, deleteComment} from '../actions';
+import {deletePost, addComment, updateComment, deleteComment, setActiveCategory} from '../actions';
 
 /**
  * PostDetailView - Displays post detail view along with its comments
@@ -15,16 +15,20 @@ class PostDetailView extends Component{
     constructor(props, context){
         super(props);
 
+        const {post_id, category} = this.props.match.params;
         this.state = {
             commentsModalOpen: false,
             isCommentEditMode: false,
             commentInAddEditMode: {
                 author:'',
                 body:'',
-                parentId: this.props.match.params.post_id,
+                parentId: post_id,
                 id:Math.random().toString(36).substr(-8)
             }
         }
+
+        this.props.changeActiveCategory(category||'all')
+
     }
 
     /**
@@ -251,6 +255,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         deleteCommentDetail:(id)=> {
             dispatch(deleteComment(id));
+        },
+        changeActiveCategory : (category) => {
+            dispatch(setActiveCategory(category))
         }
     }
 }

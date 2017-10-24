@@ -2,6 +2,7 @@ import * as actionTypes from '../actions/ActionTypes';
 import {combineReducers} from 'redux';
 
 const initialState = {
+    activeCategory: 'all',
     categories: [],
     posts:[]
 }
@@ -11,6 +12,8 @@ const initialState = {
  */
 function appReducer(state = initialState, action){
     switch(action.type){
+        case actionTypes.SET_ACTIVE_CATEGORY:
+            return {...state, activeCategory: action.category}
         case actionTypes.RECEIVE_CATEGORIES:
             return {...state, categories: action.categories}
         case actionTypes.RECEIVE_ALL_POSTS:
